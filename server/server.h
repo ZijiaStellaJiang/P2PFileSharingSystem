@@ -40,6 +40,8 @@ public:
     static int tryRecvMessage(char *message, int mode, int fd);
 
     void close();
+
+    int getPort();
     protected:
     void initHit(); // init the hit
 

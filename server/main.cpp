@@ -25,8 +25,7 @@ int main(int argc, char *argv[]){
     //server.trySendMessage(message, fd);
     //server.close();
     //return 0;
-
-    p2pserver pserver(3333);
+    p2pserver pserver;
     pserver.run();
     return 0;
 
