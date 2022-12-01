@@ -1,4 +1,4 @@
-CFLAGS =  -Wall -Werror -pedantic -ggdb3 -std=c++11 
+CFLAGS = -Wall -Werror -pedantic -ggdb3 -std=c++11 
 main: main.o server.o p2pserver.o
 	g++ -o main main.o server.o p2pserver.o -lpthread
 server.o: server.cpp server.h 

@@ -29,7 +29,7 @@ public:
     
     const std::string &getClientIp() const;
 
-    explicit server(int port);
+    server(int port);
 
     int tryListen();
 

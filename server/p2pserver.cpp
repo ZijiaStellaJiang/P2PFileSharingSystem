@@ -1,6 +1,7 @@
 #include "p2pserver.h"
 #include "server.h"
 #include "pthread.h"
+#include "request.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -32,9 +33,10 @@ void p2pserver::run(int port){
             continue;
         }
         // Create a request
+        request * req = new request(server.getClientFd(), server.getClientIp());
         // Create a new thread to handle the request
         pthread_t thread;
-        pthread_create(&thread, nullptr, (THREADFUNCPTR) &p2pserver::execute,&server);
+        pthread_create(&thread, nullptr, (THREADFUNCPTR) &p2pserver::execute,req);
     }
 }
 
