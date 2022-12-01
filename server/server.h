@@ -15,7 +15,8 @@
 class server{
     public:
     int getErrorCode() const;
-private:
+    
+    private:
     int errorCode;
     int socket_fd;
     struct addrinfo hit;

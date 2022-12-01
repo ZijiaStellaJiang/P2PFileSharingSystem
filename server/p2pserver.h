@@ -17,11 +17,12 @@ using namespace std;
 
 class p2pserver{
     private:
-    server server;
     int port;
+    server Server;
+
     public:
-    p2pserver(int port):port(port),server(server){};
-    void run(int port);
+    p2pserver(int p):port(p),Server(p){};
+    void run();
     void * execute(void * req);
 
 };
