@@ -127,5 +127,8 @@ const std::string &server::getClientIp() const {
     return clientIp;
 }
 
+int server::getPort(){
+    return port;
+}
 
 
