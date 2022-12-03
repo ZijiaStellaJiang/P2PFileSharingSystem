@@ -10,6 +10,7 @@ using namespace std;
 typedef void * (*THREADFUNCPTR)(void *);
 pthread_mutex_t mutex_lock = PTHREAD_MUTEX_INITIALIZER;
 server p2pserver::serverr = server(3333);
+
 void * p2pserver::execute(void * req){
     pthread_mutex_lock(&mutex_lock);
     char buffer[512];
@@ -27,6 +28,7 @@ void p2pserver::run(){
     }
     //build deamon
     int port=serverr.getPort();
+    serverr.tryListen();
     cout << "Waiting for connection on port " << port << endl;
     while(true){
         // Accept one connection in the queue

@@ -1,5 +1,5 @@
-#ifdef HOSTCLIENT_H
-#define HOSTCLIENT_H
+#ifndef PEERSERVER_H
+#define PEERSERVER_H
 
 #include <netdb.h>
 #include <unistd.h>
@@ -10,14 +10,20 @@
 #include <cstring>
 #include <sys/socket.h>
 
-class hostClient {
+#include "../server/server.h"
+
+/**
+ * this peerServer is the client who wants to share files
+ * it acts as a server to other peers 
+*/
+class peerServer {
     private:
-        int socket_fd;
-        int error_code;
-        struct addrinfo hit;
-        struct addrinfo *res;
-        int port;
-        int peer_fd;
+        server serv;
+    
+    public:
+        peerServer(int port): serv(server(port)) {}
+        void run();
+        void execute();
 };
 
 #endif
