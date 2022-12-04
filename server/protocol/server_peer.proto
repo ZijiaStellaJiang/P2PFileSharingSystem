@@ -1,0 +1,71 @@
+syntax = "proto2";
+
+//Client want to share a file 
+message C2SShare{
+    required int32 port = 1;
+    repeated fileInfo file_info = 2;
+}
+
+message fileInfo{
+    required string file_name = 1;
+    required int64 file_size = 2;
+    required int64 file_ttl = 3;
+}
+
+//Server response of client share request 
+message S2CShare{
+    repeated fileNameResponse resp = 1;
+}    
+ 
+message fileNameResponse{
+    required string file_name = 1;
+    required bool resp = 2;
+}
+
+//Client query a file info from server
+message C2SQuery{
+    required string file_name = 1;    
+}
+
+//Server response of client query request
+message S2CQuery{
+    required bool resp = 1;
+    optional string file_name = 2; 
+    optional int64 target_ip = 3;
+    optional int32 target_port = 4;
+    optional int64 file_size = 5;
+}
+
+//Client want to delete a file in server's db
+message C2SDelete{
+    repeated string file_name = 1;
+}
+
+//Server's response of client's delete request
+message S2CDelete{
+    repeated fileNameResponse resp = 1;
+}
+
+//Client want to quit the network
+message C2SQuit{
+    required int32 request_quit = 1;
+}
+
+//Server's response of quit request
+message S2CQuit{
+    required bool resp = 1;
+}
+
+message clientRequest{
+    optional C2SShare req_share = 1;
+    optional C2SQuery req_query = 2;
+    optional C2SDelete req_delete = 3;
+    optional C2SQuit req_quit = 4;
+}
+
+message serverResp{
+    optional S2CShare resp_share = 1;
+    optional S2CQuery resp_query = 2;
+    optional S2CDelete resp_delete = 3;
+    optional S2CQuit resp_quit = 4;
+}
