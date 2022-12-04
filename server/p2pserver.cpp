@@ -15,6 +15,7 @@ void * p2pserver::execute(void * req){
     pthread_mutex_lock(&mutex_lock);
     char buffer[512];
     serverr.tryRecvMessage(buffer,0,serverr.getClientFd());
+    // req.getFd()
     cout << "Server received: " << buffer << endl;
     pthread_mutex_unlock(&mutex_lock);
     return nullptr;

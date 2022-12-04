@@ -15,17 +15,17 @@ class client {
         int errorCode;
         struct addrinfo hit;
         struct addrinfo *res; // ll
-        const char *hostname;
+        const char * ipAddr;
         int port;
+
     public:
-        client(const char * hostname, int port);
+        client(const char * ipAddr, int port);
         int getSocketFd() const;
         int getErrorCode() const;
         static int trySendMessage(char *message, int fd);
         static int tryRecvMessage(char *message, int mode, int fd);    // Try to receive the message on the port
         static int recvMessage(int fd, void * message, int length);
         void close();
-
     protected:
         void initHit(); // init the hit
         int getAddress(); // get the address

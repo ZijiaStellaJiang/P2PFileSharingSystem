@@ -1,10 +1,10 @@
 #include "client.h"
 
 
-client::client(const char * hostname, int port) {
+client::client(const char * ipAddr, int port) {
     this->errorCode = 0;
     this->port = port;
-    this->hostname = hostname;
+    this->ipAddr = ipAddr;
     initHit();
     if(getAddress() == -1){
         this->errorCode = -1;
@@ -28,7 +28,7 @@ void client::initHit() {
 }
 
 int client::getAddress() {
-    if(getaddrinfo(this->hostname, std::to_string(this->port).c_str(), &this->hit, &this->res) != 0) return printError("Error: cannot get address info for host");
+    if(getaddrinfo(this->ipAddr, std::to_string(this->port).c_str(), &this->hit, &this->res) != 0) return printError("Error: cannot get address info for host");
     return 0;
 }
 

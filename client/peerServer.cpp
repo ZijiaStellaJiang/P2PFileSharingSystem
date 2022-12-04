@@ -13,6 +13,9 @@ void peerServer::execute() {
     mtx.lock();
     
     cout << "test thread " << serv.getPort() << endl;
+    char buffer[512];
+    serv.tryRecvMessage(buffer, 0, serv.getClientFd());
+    cout << "peer server received: " << buffer << endl;
 
     mtx.unlock();
 }
@@ -24,16 +27,15 @@ void peerServer::run() {
     }
     //build deamon
     int port=serv.getPort();
+    serv.tryListen();
     cout << "Waiting for connection on port for sharing " << port << endl;
 
     while(true){
-        thread thrd(&peerServer::execute, this);
         // Accept one connection in the queue
         if(serv.tryAccept() == -1){
             cerr<<"Error to accept on the port"<<endl;
             continue;
         }
-        //thread thrd(&peerServer::execute, this);
-        thrd.join();
+        execute();
     }
 }
