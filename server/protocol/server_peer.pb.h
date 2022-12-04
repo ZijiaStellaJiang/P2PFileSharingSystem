@@ -38,7 +38,7 @@ namespace protobuf_server_5fpeer_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[10];
+  static const ::google::protobuf::internal::ParseTable schema[12];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -69,12 +69,18 @@ extern S2CQuitDefaultTypeInternal _S2CQuit_default_instance_;
 class S2CShare;
 class S2CShareDefaultTypeInternal;
 extern S2CShareDefaultTypeInternal _S2CShare_default_instance_;
+class clientRequest;
+class clientRequestDefaultTypeInternal;
+extern clientRequestDefaultTypeInternal _clientRequest_default_instance_;
 class fileInfo;
 class fileInfoDefaultTypeInternal;
 extern fileInfoDefaultTypeInternal _fileInfo_default_instance_;
 class fileNameResponse;
 class fileNameResponseDefaultTypeInternal;
 extern fileNameResponseDefaultTypeInternal _fileNameResponse_default_instance_;
+class serverResp;
+class serverRespDefaultTypeInternal;
+extern serverRespDefaultTypeInternal _serverResp_default_instance_;
 namespace google {
 namespace protobuf {
 template<> ::C2SDelete* Arena::CreateMaybeMessage<::C2SDelete>(Arena*);
@@ -85,8 +91,10 @@ template<> ::S2CDelete* Arena::CreateMaybeMessage<::S2CDelete>(Arena*);
 template<> ::S2CQuery* Arena::CreateMaybeMessage<::S2CQuery>(Arena*);
 template<> ::S2CQuit* Arena::CreateMaybeMessage<::S2CQuit>(Arena*);
 template<> ::S2CShare* Arena::CreateMaybeMessage<::S2CShare>(Arena*);
+template<> ::clientRequest* Arena::CreateMaybeMessage<::clientRequest>(Arena*);
 template<> ::fileInfo* Arena::CreateMaybeMessage<::fileInfo>(Arena*);
 template<> ::fileNameResponse* Arena::CreateMaybeMessage<::fileNameResponse>(Arena*);
+template<> ::serverResp* Arena::CreateMaybeMessage<::serverResp>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 
@@ -1370,6 +1378,334 @@ class S2CQuit : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   bool resp_;
   friend struct ::protobuf_server_5fpeer_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class clientRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:clientRequest) */ {
+ public:
+  clientRequest();
+  virtual ~clientRequest();
+
+  clientRequest(const clientRequest& from);
+
+  inline clientRequest& operator=(const clientRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  clientRequest(clientRequest&& from) noexcept
+    : clientRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline clientRequest& operator=(clientRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const clientRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const clientRequest* internal_default_instance() {
+    return reinterpret_cast<const clientRequest*>(
+               &_clientRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  void Swap(clientRequest* other);
+  friend void swap(clientRequest& a, clientRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline clientRequest* New() const final {
+    return CreateMaybeMessage<clientRequest>(NULL);
+  }
+
+  clientRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<clientRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const clientRequest& from);
+  void MergeFrom(const clientRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(clientRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .C2SShare req_share = 1;
+  bool has_req_share() const;
+  void clear_req_share();
+  static const int kReqShareFieldNumber = 1;
+  private:
+  const ::C2SShare& _internal_req_share() const;
+  public:
+  const ::C2SShare& req_share() const;
+  ::C2SShare* release_req_share();
+  ::C2SShare* mutable_req_share();
+  void set_allocated_req_share(::C2SShare* req_share);
+
+  // optional .C2SQuery req_query = 2;
+  bool has_req_query() const;
+  void clear_req_query();
+  static const int kReqQueryFieldNumber = 2;
+  private:
+  const ::C2SQuery& _internal_req_query() const;
+  public:
+  const ::C2SQuery& req_query() const;
+  ::C2SQuery* release_req_query();
+  ::C2SQuery* mutable_req_query();
+  void set_allocated_req_query(::C2SQuery* req_query);
+
+  // optional .C2SDelete req_delete = 3;
+  bool has_req_delete() const;
+  void clear_req_delete();
+  static const int kReqDeleteFieldNumber = 3;
+  private:
+  const ::C2SDelete& _internal_req_delete() const;
+  public:
+  const ::C2SDelete& req_delete() const;
+  ::C2SDelete* release_req_delete();
+  ::C2SDelete* mutable_req_delete();
+  void set_allocated_req_delete(::C2SDelete* req_delete);
+
+  // optional .C2SQuit req_quit = 4;
+  bool has_req_quit() const;
+  void clear_req_quit();
+  static const int kReqQuitFieldNumber = 4;
+  private:
+  const ::C2SQuit& _internal_req_quit() const;
+  public:
+  const ::C2SQuit& req_quit() const;
+  ::C2SQuit* release_req_quit();
+  ::C2SQuit* mutable_req_quit();
+  void set_allocated_req_quit(::C2SQuit* req_quit);
+
+  // @@protoc_insertion_point(class_scope:clientRequest)
+ private:
+  void set_has_req_share();
+  void clear_has_req_share();
+  void set_has_req_query();
+  void clear_has_req_query();
+  void set_has_req_delete();
+  void clear_has_req_delete();
+  void set_has_req_quit();
+  void clear_has_req_quit();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  ::C2SShare* req_share_;
+  ::C2SQuery* req_query_;
+  ::C2SDelete* req_delete_;
+  ::C2SQuit* req_quit_;
+  friend struct ::protobuf_server_5fpeer_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class serverResp : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:serverResp) */ {
+ public:
+  serverResp();
+  virtual ~serverResp();
+
+  serverResp(const serverResp& from);
+
+  inline serverResp& operator=(const serverResp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  serverResp(serverResp&& from) noexcept
+    : serverResp() {
+    *this = ::std::move(from);
+  }
+
+  inline serverResp& operator=(serverResp&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const serverResp& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const serverResp* internal_default_instance() {
+    return reinterpret_cast<const serverResp*>(
+               &_serverResp_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  void Swap(serverResp* other);
+  friend void swap(serverResp& a, serverResp& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline serverResp* New() const final {
+    return CreateMaybeMessage<serverResp>(NULL);
+  }
+
+  serverResp* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<serverResp>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const serverResp& from);
+  void MergeFrom(const serverResp& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(serverResp* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .S2CShare resp_share = 1;
+  bool has_resp_share() const;
+  void clear_resp_share();
+  static const int kRespShareFieldNumber = 1;
+  private:
+  const ::S2CShare& _internal_resp_share() const;
+  public:
+  const ::S2CShare& resp_share() const;
+  ::S2CShare* release_resp_share();
+  ::S2CShare* mutable_resp_share();
+  void set_allocated_resp_share(::S2CShare* resp_share);
+
+  // optional .S2CQuery resp_query = 2;
+  bool has_resp_query() const;
+  void clear_resp_query();
+  static const int kRespQueryFieldNumber = 2;
+  private:
+  const ::S2CQuery& _internal_resp_query() const;
+  public:
+  const ::S2CQuery& resp_query() const;
+  ::S2CQuery* release_resp_query();
+  ::S2CQuery* mutable_resp_query();
+  void set_allocated_resp_query(::S2CQuery* resp_query);
+
+  // optional .S2CDelete resp_delete = 3;
+  bool has_resp_delete() const;
+  void clear_resp_delete();
+  static const int kRespDeleteFieldNumber = 3;
+  private:
+  const ::S2CDelete& _internal_resp_delete() const;
+  public:
+  const ::S2CDelete& resp_delete() const;
+  ::S2CDelete* release_resp_delete();
+  ::S2CDelete* mutable_resp_delete();
+  void set_allocated_resp_delete(::S2CDelete* resp_delete);
+
+  // optional .S2CQuit resp_quit = 4;
+  bool has_resp_quit() const;
+  void clear_resp_quit();
+  static const int kRespQuitFieldNumber = 4;
+  private:
+  const ::S2CQuit& _internal_resp_quit() const;
+  public:
+  const ::S2CQuit& resp_quit() const;
+  ::S2CQuit* release_resp_quit();
+  ::S2CQuit* mutable_resp_quit();
+  void set_allocated_resp_quit(::S2CQuit* resp_quit);
+
+  // @@protoc_insertion_point(class_scope:serverResp)
+ private:
+  void set_has_resp_share();
+  void clear_has_resp_share();
+  void set_has_resp_query();
+  void clear_has_resp_query();
+  void set_has_resp_delete();
+  void clear_has_resp_delete();
+  void set_has_resp_quit();
+  void clear_has_resp_quit();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  ::S2CShare* resp_share_;
+  ::S2CQuery* resp_query_;
+  ::S2CDelete* resp_delete_;
+  ::S2CQuit* resp_quit_;
+  friend struct ::protobuf_server_5fpeer_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -2080,9 +2416,485 @@ inline void S2CQuit::set_resp(bool value) {
   // @@protoc_insertion_point(field_set:S2CQuit.resp)
 }
 
+// -------------------------------------------------------------------
+
+// clientRequest
+
+// optional .C2SShare req_share = 1;
+inline bool clientRequest::has_req_share() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void clientRequest::set_has_req_share() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void clientRequest::clear_has_req_share() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void clientRequest::clear_req_share() {
+  if (req_share_ != NULL) req_share_->Clear();
+  clear_has_req_share();
+}
+inline const ::C2SShare& clientRequest::_internal_req_share() const {
+  return *req_share_;
+}
+inline const ::C2SShare& clientRequest::req_share() const {
+  const ::C2SShare* p = req_share_;
+  // @@protoc_insertion_point(field_get:clientRequest.req_share)
+  return p != NULL ? *p : *reinterpret_cast<const ::C2SShare*>(
+      &::_C2SShare_default_instance_);
+}
+inline ::C2SShare* clientRequest::release_req_share() {
+  // @@protoc_insertion_point(field_release:clientRequest.req_share)
+  clear_has_req_share();
+  ::C2SShare* temp = req_share_;
+  req_share_ = NULL;
+  return temp;
+}
+inline ::C2SShare* clientRequest::mutable_req_share() {
+  set_has_req_share();
+  if (req_share_ == NULL) {
+    auto* p = CreateMaybeMessage<::C2SShare>(GetArenaNoVirtual());
+    req_share_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:clientRequest.req_share)
+  return req_share_;
+}
+inline void clientRequest::set_allocated_req_share(::C2SShare* req_share) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete req_share_;
+  }
+  if (req_share) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      req_share = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, req_share, submessage_arena);
+    }
+    set_has_req_share();
+  } else {
+    clear_has_req_share();
+  }
+  req_share_ = req_share;
+  // @@protoc_insertion_point(field_set_allocated:clientRequest.req_share)
+}
+
+// optional .C2SQuery req_query = 2;
+inline bool clientRequest::has_req_query() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void clientRequest::set_has_req_query() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void clientRequest::clear_has_req_query() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void clientRequest::clear_req_query() {
+  if (req_query_ != NULL) req_query_->Clear();
+  clear_has_req_query();
+}
+inline const ::C2SQuery& clientRequest::_internal_req_query() const {
+  return *req_query_;
+}
+inline const ::C2SQuery& clientRequest::req_query() const {
+  const ::C2SQuery* p = req_query_;
+  // @@protoc_insertion_point(field_get:clientRequest.req_query)
+  return p != NULL ? *p : *reinterpret_cast<const ::C2SQuery*>(
+      &::_C2SQuery_default_instance_);
+}
+inline ::C2SQuery* clientRequest::release_req_query() {
+  // @@protoc_insertion_point(field_release:clientRequest.req_query)
+  clear_has_req_query();
+  ::C2SQuery* temp = req_query_;
+  req_query_ = NULL;
+  return temp;
+}
+inline ::C2SQuery* clientRequest::mutable_req_query() {
+  set_has_req_query();
+  if (req_query_ == NULL) {
+    auto* p = CreateMaybeMessage<::C2SQuery>(GetArenaNoVirtual());
+    req_query_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:clientRequest.req_query)
+  return req_query_;
+}
+inline void clientRequest::set_allocated_req_query(::C2SQuery* req_query) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete req_query_;
+  }
+  if (req_query) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      req_query = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, req_query, submessage_arena);
+    }
+    set_has_req_query();
+  } else {
+    clear_has_req_query();
+  }
+  req_query_ = req_query;
+  // @@protoc_insertion_point(field_set_allocated:clientRequest.req_query)
+}
+
+// optional .C2SDelete req_delete = 3;
+inline bool clientRequest::has_req_delete() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void clientRequest::set_has_req_delete() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void clientRequest::clear_has_req_delete() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void clientRequest::clear_req_delete() {
+  if (req_delete_ != NULL) req_delete_->Clear();
+  clear_has_req_delete();
+}
+inline const ::C2SDelete& clientRequest::_internal_req_delete() const {
+  return *req_delete_;
+}
+inline const ::C2SDelete& clientRequest::req_delete() const {
+  const ::C2SDelete* p = req_delete_;
+  // @@protoc_insertion_point(field_get:clientRequest.req_delete)
+  return p != NULL ? *p : *reinterpret_cast<const ::C2SDelete*>(
+      &::_C2SDelete_default_instance_);
+}
+inline ::C2SDelete* clientRequest::release_req_delete() {
+  // @@protoc_insertion_point(field_release:clientRequest.req_delete)
+  clear_has_req_delete();
+  ::C2SDelete* temp = req_delete_;
+  req_delete_ = NULL;
+  return temp;
+}
+inline ::C2SDelete* clientRequest::mutable_req_delete() {
+  set_has_req_delete();
+  if (req_delete_ == NULL) {
+    auto* p = CreateMaybeMessage<::C2SDelete>(GetArenaNoVirtual());
+    req_delete_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:clientRequest.req_delete)
+  return req_delete_;
+}
+inline void clientRequest::set_allocated_req_delete(::C2SDelete* req_delete) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete req_delete_;
+  }
+  if (req_delete) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      req_delete = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, req_delete, submessage_arena);
+    }
+    set_has_req_delete();
+  } else {
+    clear_has_req_delete();
+  }
+  req_delete_ = req_delete;
+  // @@protoc_insertion_point(field_set_allocated:clientRequest.req_delete)
+}
+
+// optional .C2SQuit req_quit = 4;
+inline bool clientRequest::has_req_quit() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void clientRequest::set_has_req_quit() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void clientRequest::clear_has_req_quit() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void clientRequest::clear_req_quit() {
+  if (req_quit_ != NULL) req_quit_->Clear();
+  clear_has_req_quit();
+}
+inline const ::C2SQuit& clientRequest::_internal_req_quit() const {
+  return *req_quit_;
+}
+inline const ::C2SQuit& clientRequest::req_quit() const {
+  const ::C2SQuit* p = req_quit_;
+  // @@protoc_insertion_point(field_get:clientRequest.req_quit)
+  return p != NULL ? *p : *reinterpret_cast<const ::C2SQuit*>(
+      &::_C2SQuit_default_instance_);
+}
+inline ::C2SQuit* clientRequest::release_req_quit() {
+  // @@protoc_insertion_point(field_release:clientRequest.req_quit)
+  clear_has_req_quit();
+  ::C2SQuit* temp = req_quit_;
+  req_quit_ = NULL;
+  return temp;
+}
+inline ::C2SQuit* clientRequest::mutable_req_quit() {
+  set_has_req_quit();
+  if (req_quit_ == NULL) {
+    auto* p = CreateMaybeMessage<::C2SQuit>(GetArenaNoVirtual());
+    req_quit_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:clientRequest.req_quit)
+  return req_quit_;
+}
+inline void clientRequest::set_allocated_req_quit(::C2SQuit* req_quit) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete req_quit_;
+  }
+  if (req_quit) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      req_quit = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, req_quit, submessage_arena);
+    }
+    set_has_req_quit();
+  } else {
+    clear_has_req_quit();
+  }
+  req_quit_ = req_quit;
+  // @@protoc_insertion_point(field_set_allocated:clientRequest.req_quit)
+}
+
+// -------------------------------------------------------------------
+
+// serverResp
+
+// optional .S2CShare resp_share = 1;
+inline bool serverResp::has_resp_share() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void serverResp::set_has_resp_share() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void serverResp::clear_has_resp_share() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void serverResp::clear_resp_share() {
+  if (resp_share_ != NULL) resp_share_->Clear();
+  clear_has_resp_share();
+}
+inline const ::S2CShare& serverResp::_internal_resp_share() const {
+  return *resp_share_;
+}
+inline const ::S2CShare& serverResp::resp_share() const {
+  const ::S2CShare* p = resp_share_;
+  // @@protoc_insertion_point(field_get:serverResp.resp_share)
+  return p != NULL ? *p : *reinterpret_cast<const ::S2CShare*>(
+      &::_S2CShare_default_instance_);
+}
+inline ::S2CShare* serverResp::release_resp_share() {
+  // @@protoc_insertion_point(field_release:serverResp.resp_share)
+  clear_has_resp_share();
+  ::S2CShare* temp = resp_share_;
+  resp_share_ = NULL;
+  return temp;
+}
+inline ::S2CShare* serverResp::mutable_resp_share() {
+  set_has_resp_share();
+  if (resp_share_ == NULL) {
+    auto* p = CreateMaybeMessage<::S2CShare>(GetArenaNoVirtual());
+    resp_share_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:serverResp.resp_share)
+  return resp_share_;
+}
+inline void serverResp::set_allocated_resp_share(::S2CShare* resp_share) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete resp_share_;
+  }
+  if (resp_share) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      resp_share = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, resp_share, submessage_arena);
+    }
+    set_has_resp_share();
+  } else {
+    clear_has_resp_share();
+  }
+  resp_share_ = resp_share;
+  // @@protoc_insertion_point(field_set_allocated:serverResp.resp_share)
+}
+
+// optional .S2CQuery resp_query = 2;
+inline bool serverResp::has_resp_query() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void serverResp::set_has_resp_query() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void serverResp::clear_has_resp_query() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void serverResp::clear_resp_query() {
+  if (resp_query_ != NULL) resp_query_->Clear();
+  clear_has_resp_query();
+}
+inline const ::S2CQuery& serverResp::_internal_resp_query() const {
+  return *resp_query_;
+}
+inline const ::S2CQuery& serverResp::resp_query() const {
+  const ::S2CQuery* p = resp_query_;
+  // @@protoc_insertion_point(field_get:serverResp.resp_query)
+  return p != NULL ? *p : *reinterpret_cast<const ::S2CQuery*>(
+      &::_S2CQuery_default_instance_);
+}
+inline ::S2CQuery* serverResp::release_resp_query() {
+  // @@protoc_insertion_point(field_release:serverResp.resp_query)
+  clear_has_resp_query();
+  ::S2CQuery* temp = resp_query_;
+  resp_query_ = NULL;
+  return temp;
+}
+inline ::S2CQuery* serverResp::mutable_resp_query() {
+  set_has_resp_query();
+  if (resp_query_ == NULL) {
+    auto* p = CreateMaybeMessage<::S2CQuery>(GetArenaNoVirtual());
+    resp_query_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:serverResp.resp_query)
+  return resp_query_;
+}
+inline void serverResp::set_allocated_resp_query(::S2CQuery* resp_query) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete resp_query_;
+  }
+  if (resp_query) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      resp_query = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, resp_query, submessage_arena);
+    }
+    set_has_resp_query();
+  } else {
+    clear_has_resp_query();
+  }
+  resp_query_ = resp_query;
+  // @@protoc_insertion_point(field_set_allocated:serverResp.resp_query)
+}
+
+// optional .S2CDelete resp_delete = 3;
+inline bool serverResp::has_resp_delete() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void serverResp::set_has_resp_delete() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void serverResp::clear_has_resp_delete() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void serverResp::clear_resp_delete() {
+  if (resp_delete_ != NULL) resp_delete_->Clear();
+  clear_has_resp_delete();
+}
+inline const ::S2CDelete& serverResp::_internal_resp_delete() const {
+  return *resp_delete_;
+}
+inline const ::S2CDelete& serverResp::resp_delete() const {
+  const ::S2CDelete* p = resp_delete_;
+  // @@protoc_insertion_point(field_get:serverResp.resp_delete)
+  return p != NULL ? *p : *reinterpret_cast<const ::S2CDelete*>(
+      &::_S2CDelete_default_instance_);
+}
+inline ::S2CDelete* serverResp::release_resp_delete() {
+  // @@protoc_insertion_point(field_release:serverResp.resp_delete)
+  clear_has_resp_delete();
+  ::S2CDelete* temp = resp_delete_;
+  resp_delete_ = NULL;
+  return temp;
+}
+inline ::S2CDelete* serverResp::mutable_resp_delete() {
+  set_has_resp_delete();
+  if (resp_delete_ == NULL) {
+    auto* p = CreateMaybeMessage<::S2CDelete>(GetArenaNoVirtual());
+    resp_delete_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:serverResp.resp_delete)
+  return resp_delete_;
+}
+inline void serverResp::set_allocated_resp_delete(::S2CDelete* resp_delete) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete resp_delete_;
+  }
+  if (resp_delete) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      resp_delete = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, resp_delete, submessage_arena);
+    }
+    set_has_resp_delete();
+  } else {
+    clear_has_resp_delete();
+  }
+  resp_delete_ = resp_delete;
+  // @@protoc_insertion_point(field_set_allocated:serverResp.resp_delete)
+}
+
+// optional .S2CQuit resp_quit = 4;
+inline bool serverResp::has_resp_quit() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void serverResp::set_has_resp_quit() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void serverResp::clear_has_resp_quit() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void serverResp::clear_resp_quit() {
+  if (resp_quit_ != NULL) resp_quit_->Clear();
+  clear_has_resp_quit();
+}
+inline const ::S2CQuit& serverResp::_internal_resp_quit() const {
+  return *resp_quit_;
+}
+inline const ::S2CQuit& serverResp::resp_quit() const {
+  const ::S2CQuit* p = resp_quit_;
+  // @@protoc_insertion_point(field_get:serverResp.resp_quit)
+  return p != NULL ? *p : *reinterpret_cast<const ::S2CQuit*>(
+      &::_S2CQuit_default_instance_);
+}
+inline ::S2CQuit* serverResp::release_resp_quit() {
+  // @@protoc_insertion_point(field_release:serverResp.resp_quit)
+  clear_has_resp_quit();
+  ::S2CQuit* temp = resp_quit_;
+  resp_quit_ = NULL;
+  return temp;
+}
+inline ::S2CQuit* serverResp::mutable_resp_quit() {
+  set_has_resp_quit();
+  if (resp_quit_ == NULL) {
+    auto* p = CreateMaybeMessage<::S2CQuit>(GetArenaNoVirtual());
+    resp_quit_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:serverResp.resp_quit)
+  return resp_quit_;
+}
+inline void serverResp::set_allocated_resp_quit(::S2CQuit* resp_quit) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete resp_quit_;
+  }
+  if (resp_quit) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      resp_quit = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, resp_quit, submessage_arena);
+    }
+    set_has_resp_quit();
+  } else {
+    clear_has_resp_quit();
+  }
+  resp_quit_ = resp_quit;
+  // @@protoc_insertion_point(field_set_allocated:serverResp.resp_quit)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
