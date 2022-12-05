@@ -15,14 +15,19 @@ int main(int argc, char *argv[]){
     const char *hostname = argv[1];
     client client(hostname,port);
     cout << "connect " << port << endl;
-    char message[] = "hi there! I'm client";
+    //char message[] = "hi there! I'm client";
     int fd=client.getSocketFd();
-    client.trySendMessage(message, fd);
-    char buffer[512];
-    client.tryRecvMessage(buffer,0,fd);
-    cout << "Client received: " << buffer << endl;
-    client.close();
+    while(true){
+        clientRequest *QuitRequest = new clientRequest();
+        C2SQuit *quit = new C2SQuit();
+        quit->set_request_quit(1);
+        QuitRequest->set_allocated_req_quit(quit);
+        client.resMesg(fd,*QuitRequest);
+    }
+    //client.trySendMessage(message, fd);
+    //char buffer[512];
+    //client.tryRecvMessage(buffer,0,fd);
+    //cout << "Client received: " << buffer << endl;
+
     return 0;
-
-
 }

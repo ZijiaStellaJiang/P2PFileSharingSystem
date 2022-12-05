@@ -1,5 +1,5 @@
-#ifndef FINALPROJECT_BUFFER_H
-#define FINALPROJECT_BUFFER_H
+#ifndef BUFFER_H
+#define BUFFER_H
 
 #include <string>
 #include <vector>

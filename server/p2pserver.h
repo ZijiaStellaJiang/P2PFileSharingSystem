@@ -29,9 +29,9 @@ class p2pserver{
     p2pserver(){};
     ~p2pserver(){};
     void run();
-    static void * execute(void * req);
-
-    ;
+    static void* execute(void * req);
+   
+    
 };
 
 
