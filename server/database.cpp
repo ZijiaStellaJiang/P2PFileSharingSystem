@@ -59,8 +59,9 @@ int ServerData::add_file(string file_name, int file_size, int file_ttl, int user
     return 1;
 }
 
-S2CQuery ServerData::query_file(string file_name){
+S2CQuery * ServerData::query_file(string file_name){
     std::lock_guard <std::mutex> lck(mtx);
+    S2CQuery * response = new S2CQuery;
     work W(*C);
     result R = ServerData::is_file(W,file_name);
     if(R.size() == 1){
@@ -78,23 +79,21 @@ S2CQuery ServerData::query_file(string file_name){
             string delete_file = "DELETE FROM FILE WHERE FILENAME = '" + file_name + "';";
             W.exec(delete_file);
             if(new_ttl < 0){
-                S2CQuery response;
-                response.set_resp(false);
+                response->set_resp(false);
                 return response; 
             }
         }
         W.commit();
-        S2CQuery response;
-        response.set_resp(true);
-        response.set_file_name(file_name);
-        response.set_file_size(file_size);
-        response.set_target_ip(ip);
-        response.set_target_port(port);
+ 
+        response->set_resp(true);
+        response->set_file_name(file_name);
+        response->set_file_size(file_size);
+        response->set_target_ip(ip);
+        response->set_target_port(port);
         return response;
     }
     else{
-        S2CQuery response;
-        response.set_resp(false);
+        response->set_resp(false);
         return response;
     }
 }

@@ -30,17 +30,22 @@ class p2pserver{
     static server serverr;
     ServerData p2pDatabase;
 
+    //request handler
+
     public:
     p2pserver(){};
     ~p2pserver(){};
     void run();
-    static void * execute(void * req);
+    //static void * execute(void * req);
 
+    void sendResponse(const serverResp &serverResp);
     void handleRequest(const clientRequest &clientRequest, int user_ip);
-    serverResp handleShare(const C2SShare &c2sShare, int user_ip);
-    serverResp handleQuery(const C2SQuery &c2sQuery,int user_ip);
-    serverResp handleDelete(const C2SDelete &c2sDelete,int user_ip);
-    serverResp handleQuit(const C2SQuit &c2sQuit,int user_ip);
+    void handleShare(const C2SShare &c2sShare, int user_ip);
+    void handleQuery(const C2SQuery &c2sQuery,int user_ip);
+    void handleDelete(const C2SDelete &c2sDelete,int user_ip);
+    void handleQuit(const C2SQuit &c2sQuit,int user_ip);
+    void setResult(fileNameResponse * fileResp, int res, string file_name);
+ 
 };
 
 

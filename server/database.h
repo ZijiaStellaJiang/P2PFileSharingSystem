@@ -29,7 +29,7 @@ class ServerData{
         void DropAllTables();
         result is_file(work &W, string file_name);
         int add_file(string file_name, int file_size, int file_ttl, int user_ip, int port);
-        S2CQuery query_file(string file_name);
+        S2CQuery * query_file(string file_name);
         int delete_file(string file_name);
         int delete_user(int user_id);
 };
