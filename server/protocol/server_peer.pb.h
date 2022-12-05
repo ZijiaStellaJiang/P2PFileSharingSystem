@@ -1686,6 +1686,13 @@ class serverResp : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::S2CQuit* mutable_resp_quit();
   void set_allocated_resp_quit(::S2CQuit* resp_quit);
 
+  // required bool err = 5;
+  bool has_err() const;
+  void clear_err();
+  static const int kErrFieldNumber = 5;
+  bool err() const;
+  void set_err(bool value);
+
   // @@protoc_insertion_point(class_scope:serverResp)
  private:
   void set_has_resp_share();
@@ -1696,6 +1703,8 @@ class serverResp : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void clear_has_resp_delete();
   void set_has_resp_quit();
   void clear_has_resp_quit();
+  void set_has_err();
+  void clear_has_err();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -1704,6 +1713,7 @@ class serverResp : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::S2CQuery* resp_query_;
   ::S2CDelete* resp_delete_;
   ::S2CQuit* resp_quit_;
+  bool err_;
   friend struct ::protobuf_server_5fpeer_2eproto::TableStruct;
 };
 // ===================================================================
@@ -2886,6 +2896,30 @@ inline void serverResp::set_allocated_resp_quit(::S2CQuit* resp_quit) {
   }
   resp_quit_ = resp_quit;
   // @@protoc_insertion_point(field_set_allocated:serverResp.resp_quit)
+}
+
+// required bool err = 5;
+inline bool serverResp::has_err() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void serverResp::set_has_err() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void serverResp::clear_has_err() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void serverResp::clear_err() {
+  err_ = false;
+  clear_has_err();
+}
+inline bool serverResp::err() const {
+  // @@protoc_insertion_point(field_get:serverResp.err)
+  return err_;
+}
+inline void serverResp::set_err(bool value) {
+  set_has_err();
+  err_ = value;
+  // @@protoc_insertion_point(field_set:serverResp.err)
 }
 
 #ifdef __GNUC__

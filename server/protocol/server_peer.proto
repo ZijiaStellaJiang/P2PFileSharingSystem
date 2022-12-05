@@ -60,7 +60,7 @@ message clientRequest{
     optional C2SShare req_share = 1;
     optional C2SQuery req_query = 2;
     optional C2SDelete req_delete = 3;
-    optional C2SQuit req_quit = 4;
+    optional C2SQuit req_quit = 4; 
 }
 
 message serverResp{
@@ -68,4 +68,5 @@ message serverResp{
     optional S2CQuery resp_query = 2;
     optional S2CDelete resp_delete = 3;
     optional S2CQuit resp_quit = 4;
+    required bool err = 5;
 }

@@ -397,10 +397,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::serverResp, resp_query_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::serverResp, resp_delete_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::serverResp, resp_quit_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::serverResp, err_),
   0,
   1,
   2,
   3,
+  4,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(::C2SShare)},
@@ -414,7 +416,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 72, 78, sizeof(::C2SQuit)},
   { 79, 85, sizeof(::S2CQuit)},
   { 86, 95, sizeof(::clientRequest)},
-  { 99, 108, sizeof(::serverResp)},
+  { 99, 109, sizeof(::serverResp)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -469,13 +471,14 @@ void AddDescriptorsImpl() {
       "entRequest\022\034\n\treq_share\030\001 \001(\0132\t.C2SShare"
       "\022\034\n\treq_query\030\002 \001(\0132\t.C2SQuery\022\036\n\nreq_de"
       "lete\030\003 \001(\0132\n.C2SDelete\022\032\n\010req_quit\030\004 \001(\013"
-      "2\010.C2SQuit\"\210\001\n\nserverResp\022\035\n\nresp_share\030"
+      "2\010.C2SQuit\"\225\001\n\nserverResp\022\035\n\nresp_share\030"
       "\001 \001(\0132\t.S2CShare\022\035\n\nresp_query\030\002 \001(\0132\t.S"
       "2CQuery\022\037\n\013resp_delete\030\003 \001(\0132\n.S2CDelete"
-      "\022\033\n\tresp_quit\030\004 \001(\0132\010.S2CQuit"
+      "\022\033\n\tresp_quit\030\004 \001(\0132\010.S2CQuit\022\013\n\003err\030\005 \002"
+      "(\010"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 789);
+      descriptor, 802);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "server_peer.proto", &protobuf_RegisterTypes);
 }
@@ -3677,6 +3680,7 @@ const int serverResp::kRespShareFieldNumber;
 const int serverResp::kRespQueryFieldNumber;
 const int serverResp::kRespDeleteFieldNumber;
 const int serverResp::kRespQuitFieldNumber;
+const int serverResp::kErrFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 serverResp::serverResp()
@@ -3711,13 +3715,14 @@ serverResp::serverResp(const serverResp& from)
   } else {
     resp_quit_ = NULL;
   }
+  err_ = from.err_;
   // @@protoc_insertion_point(copy_constructor:serverResp)
 }
 
 void serverResp::SharedCtor() {
   ::memset(&resp_share_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&resp_quit_) -
-      reinterpret_cast<char*>(&resp_share_)) + sizeof(resp_quit_));
+      reinterpret_cast<char*>(&err_) -
+      reinterpret_cast<char*>(&resp_share_)) + sizeof(err_));
 }
 
 serverResp::~serverResp() {
@@ -3771,6 +3776,7 @@ void serverResp::Clear() {
       resp_quit_->Clear();
     }
   }
+  err_ = false;
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -3833,6 +3839,20 @@ bool serverResp::MergePartialFromCodedStream(
         break;
       }
 
+      // required bool err = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+          set_has_err();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &err_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -3884,6 +3904,11 @@ void serverResp::SerializeWithCachedSizes(
       4, this->_internal_resp_quit(), output);
   }
 
+  // required bool err = 5;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(5, this->err(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -3927,6 +3952,11 @@ void serverResp::SerializeWithCachedSizes(
         4, this->_internal_resp_quit(), deterministic, target);
   }
 
+  // required bool err = 5;
+  if (cached_has_bits & 0x00000010u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(5, this->err(), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -3943,6 +3973,10 @@ size_t serverResp::ByteSizeLong() const {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
+  }
+  // required bool err = 5;
+  if (has_err()) {
+    total_size += 1 + 1;
   }
   if (_has_bits_[0 / 32] & 15u) {
     // optional .S2CShare resp_share = 1;
@@ -4002,7 +4036,7 @@ void serverResp::MergeFrom(const serverResp& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       mutable_resp_share()->::S2CShare::MergeFrom(from.resp_share());
     }
@@ -4015,6 +4049,10 @@ void serverResp::MergeFrom(const serverResp& from) {
     if (cached_has_bits & 0x00000008u) {
       mutable_resp_quit()->::S2CQuit::MergeFrom(from.resp_quit());
     }
+    if (cached_has_bits & 0x00000010u) {
+      err_ = from.err_;
+    }
+    _has_bits_[0] |= cached_has_bits;
   }
 }
 
@@ -4033,6 +4071,7 @@ void serverResp::CopyFrom(const serverResp& from) {
 }
 
 bool serverResp::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000010) != 0x00000010) return false;
   if (has_resp_share()) {
     if (!this->resp_share_->IsInitialized()) return false;
   }
@@ -4058,6 +4097,7 @@ void serverResp::InternalSwap(serverResp* other) {
   swap(resp_query_, other->resp_query_);
   swap(resp_delete_, other->resp_delete_);
   swap(resp_quit_, other->resp_quit_);
+  swap(err_, other->err_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
