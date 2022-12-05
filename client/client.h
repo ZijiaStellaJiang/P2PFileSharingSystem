@@ -35,8 +35,6 @@ protected:
     int connectSocket(); // Connect to the socket
     int printError(std::string error) const; // Print Error
     static int sendall(int s, char *buf, int *len);
-    void recvMesg(int socket_fd, T &message);
-    void resMesg(int clientFd, const T& message);
 
 };
 template<typename T>
