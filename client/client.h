@@ -7,7 +7,8 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <string>
-
+#include <vector>
+using namespace std;
 class client {
 public:
     int getSocketFd() const;
@@ -35,12 +36,16 @@ protected:
     int connectSocket(); // Connect to the socket
     int printError(std::string error) const; // Print Error
     static int sendall(int s, char *buf, int *len);
+    template<typename T>
+    void recvMesg(vector<char>& buffer,int socket_fd, T& message);
+
+    template<typename T>
+    void resMesg(int socket_fd, const T& message);
 
 };
 template<typename T>
-void recvMesg(int socket_fd, T &message) {
+void recvMesg(vector<char>& buffer,int socket_fd, T &message) {
     ssize_t curLen = 0;
-    vector<char> buffer(MAX_TCP_LEN);
     curLen = tryRecvMessage(&buffer,0,socket_fd);
     if (curLen < 0) {
         cerr<<"Error: Fail to receive response from the original server!")<<endl;
