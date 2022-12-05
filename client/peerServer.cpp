@@ -17,6 +17,12 @@ void peerServer::execute() {
     serv.tryRecvMessage(buffer, 0, serv.getClientFd());
     cout << "peer server received: " << buffer << endl;
 
+    // here accept user input, later should fetch from this peerserver's folder
+    cout << "please provide the filename" << endl;
+    char toShare[64];
+    cin.getline(toShare, 64);
+    serv.trySendMessage(toShare, serv.getClientFd());
+
     mtx.unlock();
 }
 

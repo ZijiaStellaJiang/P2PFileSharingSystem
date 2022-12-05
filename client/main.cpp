@@ -27,6 +27,8 @@ int main(int argc, char *argv[]){
     int fd=client.getSocketFd();
     client.trySendMessage(message, fd);
 
+    // create two folder: share + download
+
     // open a peer server socket
     peerServer prServer(peerPort);
     thread thrd(&peerServer::run, &prServer);
@@ -43,6 +45,9 @@ int main(int argc, char *argv[]){
         char * sharemsg = argv[4];
         int prSvFd = prClient.getSocketFd();
         prClient.trySendMessage(sharemsg, prSvFd);
+        char buffer[512];
+        prClient.tryRecvMessage(buffer, 0, prClient.getSocketFd());
+        cout << "my peer send me file with filename: " << buffer << endl;
     }
 
     while(true) {

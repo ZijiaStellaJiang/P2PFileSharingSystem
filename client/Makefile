@@ -14,3 +14,6 @@ server.o: $(SERVER_C) $(SERVER_H)
 	g++ $(CFLAGS) -c $(SERVER_C) -pthread
 main.o: main.cpp client.h peerServer.h $(SERVER_H) peerClient.h
 	g++ $(CFLAGS) -c main.cpp -pthread
+
+clean:
+	rm -f main *.o
