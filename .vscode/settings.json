@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "iostream": "cpp"
-    },
-    "DockerRun.DisableAutoGenerateConfig": true
+        "iostream": "cpp",
+        "vector": "cpp"
+    }
 }

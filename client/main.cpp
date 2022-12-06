@@ -11,9 +11,14 @@
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <thread>
+#include "../server/protocol/server_peer.pb.h"
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/io/coded_stream.h>
+#include <google/protobuf/message_lite.h>
 #include "client.h"
 #include "peerServer.h"
 #include "peerClient.h"
+#include "buffer.h"
 using namespace std;
 
 void connectp2pServer(client & client, char* name);
@@ -34,7 +39,6 @@ int main(int argc, char *argv[]){
 
     // connect with the peer server for sharing file
     // try connection here
-    cout << "test pass through" << endl;
     // place holder, should use request type later for condition
     if (argc == 6) {
         const int sharePort = atoi(argv[4]);
@@ -48,9 +52,16 @@ int main(int argc, char *argv[]){
         cout << "my peer send me file with filename: " << buffer << endl;
     }
 
-    while(true) {
-        // do the request and response here
+    // sample of how to communicate with request
+    int fd=client.getSocketFd();
+    while(true){
+        clientRequest *QuitRequest = new clientRequest();
+        C2SQuit *quit = new C2SQuit();
+        quit->set_request_quit(1);
+        QuitRequest->set_allocated_req_quit(quit);
+        client.resMesg(fd,*QuitRequest);
     }
+
 
     // if the client wants to quit, then delete the folder
     rmdir((clientpath).c_str());
@@ -58,8 +69,6 @@ int main(int argc, char *argv[]){
     // close the client
 
     return 0;
-
-
 }
 
 void connectp2pServer(client & client, char* name) {

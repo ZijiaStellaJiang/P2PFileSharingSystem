@@ -1,23 +1,22 @@
 #include "p2pserver.h"
-#include "server.h"
-#include "pthread.h"
-#include "request.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
+#include "thread"
+#include "protocol/server_peer.pb.h"
 
 using namespace std;
 typedef void * (*THREADFUNCPTR)(void *);
 pthread_mutex_t mutex_lock = PTHREAD_MUTEX_INITIALIZER;
 server p2pserver::serverr = server(3333);
-
-void * p2pserver::execute(void * req){
-    pthread_mutex_lock(&mutex_lock);
+void* p2pserver::execute(void * req){
+    //pthread_mutex_lock(&mutex_lock);
     char buffer[512];
     serverr.tryRecvMessage(buffer,0,serverr.getClientFd());
-    // req.getFd()
-    cout << "Server received: " << buffer << endl;
-    pthread_mutex_unlock(&mutex_lock);
+    cout << buffer << endl;
+    
+    clientRequest clientRequest;
+    int res=serverr.recvMesg(serverr.getClientFd(),clientRequest);
+    if(res==1) cout<<"success"<<endl;
+    if(res==-1) cout<<"fail"<<endl;
+    //pthread_mutex_unlock(&mutex_lock);
     return nullptr;
 }
 
@@ -38,13 +37,13 @@ void p2pserver::run(){
             continue;
         }
         // Create a request
+        //thread th(execute);
+        //th.detach();
         request * req = new request(serverr.getClientFd(), serverr.getClientIp());
-        // Create a new thread to handle the request
+        //Create a new thread to handle the request
         pthread_t thread;
         pthread_create(&thread, nullptr, (THREADFUNCPTR) & p2pserver::execute,req);
         
     }
 }
-
-
 
