@@ -17,3 +17,4 @@ main.o: main.cpp client.h peerServer.h $(SERVER_H) peerClient.h
 
 clean:
 	rm -f main *.o
+	rm -rf ./clientFile/*
