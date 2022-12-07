@@ -1,5 +1,5 @@
 #include "client.h"
-
+#include <fstream>
 
 client::client(const char * hostname, int port) {
     this->errorCode = 0;
@@ -102,4 +102,143 @@ int client::getErrorCode() const {
 
 int client::recvMessage(int fd, void *message, int length) {
     return recv(fd, message, length, 0);
+}
+
+void client::setReq(fileInfo * fileReq, string file_name,int file_size, int file_ttl){
+    fileReq->set_file_name(file_name);
+    fileReq->set_file_size(file_size);
+    fileReq->set_file_ttl(file_ttl);
+}
+
+void client::handleShare(){
+    clientRequest request;
+    C2SShare * shareReq = new C2SShare();
+    cout<<"please input the number of file you want to share: "<<endl;
+    int time;
+    cin>>time;
+    cout<<"please input the port you want to share the file"<<endl;
+    int port;
+    cin>>port;
+    shareReq->set_port(port);
+    while(time-->0){
+        fileInfo* fileinfo=shareReq->add_file_info();
+        cout<<"please input the File name you want to share"<<endl;
+        string line;
+        cin>>line;
+        string filename=line;
+        cout<<"please input the File size you want to share"<<endl;
+        int size;
+        cin>>size;
+        cout<<"please input the ttl "<<endl;
+        int ttl;
+        cin>>ttl;
+        setReq(fileinfo,filename,size,ttl);
+    }
+    request.set_allocated_req_share(shareReq);
+    resMesg(socket_fd,request);
+}
+void client::handleDelete(){
+    clientRequest request;
+    C2SDelete * deleteReq = new C2SDelete();
+    cout<<"please input the number of file you want to delete: "<<endl;
+    int time;
+    cin>>time;
+    while(time-->0){
+        cout<<"please input the File name you want to delete"<<endl;
+        string name;
+        cin>>name;
+        string* filename=deleteReq->add_file_name();
+        *filename=name;
+    }
+    request.set_allocated_req_delete(deleteReq);
+    resMesg(socket_fd,request);
+}
+void client::handleQuery(){
+    clientRequest request;
+    C2SQuery * queryReq = new C2SQuery();
+    cout<<"please input the name of file you want to Query: "<<endl;
+    string line;
+    cin>>line;
+    string filename=line;
+    queryReq->set_allocated_file_name(&filename);
+    request.set_allocated_req_query(queryReq);
+    resMesg(socket_fd,request);
+}
+void client::handleQuit(){
+    clientRequest request;
+    C2SQuit * quitReq = new C2SQuit();
+    cout<<"please make sure if you want to quit the netowrk "<<endl;
+    int num;
+    cin>>num;
+    quitReq->set_request_quit(num);
+    request.set_allocated_req_quit(quitReq);
+    resMesg(socket_fd,request);
+}
+//method to send server request;
+void client::sendRequest(){
+    string type;
+    cout<<" what do you want to do? \n 1. share\n 2. delete\n 3. query\n 4. quit\n"<<endl;
+    getline(cin,type);
+    if(type=="share"){
+        handleShare();
+    }
+    if(type=="delete"){
+       handleDelete();
+    }
+    if(type=="query"){
+        handleQuery();
+    }
+    if(type=="quit"){
+      handleQuit();
+    }
+}
+//method to analyze the server response
+void client::handleResponse(const serverResp& serverResp){
+     if(serverResp.has_resp_share()){
+        S2CShare share = serverResp.resp_share();
+        cout<<"Share, number of share files "<< share.resp_size()<<endl;
+        for(int i=0;i<share.resp_size();i++){
+            fileNameResponse fileResp = share.resp()[i];
+            if(fileResp.resp()){
+                cout<<i+1<<". File name: " << fileResp.file_name()<< " Result: "<<" succeed "<<endl;
+            }else{
+                cout<<i+1<<". File name: " << fileResp.file_name()<< " Result: "<<" failed "<<endl;
+            }
+        }
+    }
+    if(serverResp.has_resp_query()){
+        S2CQuery query = serverResp.resp_query();
+        if(query.resp()){
+            cout<<"Result: "<<" Query succeed "<<endl;
+            cout<<"File name: "<<query.file_name()<<endl;
+            cout<<"File size: "<<query.file_size()<<endl;
+            cout<<"Target ip: "<<query.target_ip()<<endl;
+            cout<<"Target port: "<<query.target_port()<<endl;
+        }else{
+            cout<<"Result: "<<" Query failed "<<endl;
+        }
+        // start the peer client and ask for file from the target client
+    }
+    if(serverResp.has_resp_delete()){
+        S2CDelete del = serverResp.resp_delete();
+        cout<<"Delete "<<endl;
+        for(int i=0;i<del.resp_size();i++){
+            fileNameResponse file = del.resp(i);
+            if(file.resp()){
+                cout<<i+1<<"delete . File Name: "<<file.file_name()<<" succeed "<<endl;
+            }else{
+                cout<<i+1<<"delete . File Name: "<<file.file_name()<<" failed "<<endl;
+            }
+        }
+    }
+    if(serverResp.has_resp_quit()){
+        S2CQuit quit = serverResp.resp_quit();
+        if(quit.resp()){
+           cout<<" Quit "<<endl;
+           //close the p2p client;
+        }else{
+           cout<<" Quit cancelled "<<endl;
+        }
+        
+    }
 }

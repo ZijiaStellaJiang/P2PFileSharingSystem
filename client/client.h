@@ -49,6 +49,21 @@ public:
     template<typename T>
     void resMesg(int socket_fd, const T& message);
 
+    void sendRequest();
+
+    void handleResponse(const serverResp& serverResp);
+
+    void setReq(fileInfo * fileReq, string file_name,int file_size, int file_ttl);
+
+    void handleShare();
+
+    void handleDelete();
+
+    void handleQuery();
+
+    void handleQuit();
+
+
 };
 template<typename T>
 int client::recvMesg(int socket_fd, T &message) {
