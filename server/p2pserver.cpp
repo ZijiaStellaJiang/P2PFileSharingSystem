@@ -136,7 +136,9 @@ void p2pserver::handleShare(const C2SShare &c2sShare, int user_ip){
         setResult(fileResp, res, file_name);
     }
     response.set_allocated_resp_share(shareResp);
-    sendResponse(response);
+    //sendResponse(response);
+    response.set_err(false);
+    serverr.resMesg(serverr.getClientFd(),response);
 }
 
 void p2pserver::handleQuery(const C2SQuery &c2sQuery,int user_ip){
