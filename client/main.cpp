@@ -52,13 +52,13 @@ int main(int argc, char *argv[]){
             cin >> peerPort;
             client.handleShare(peerPort, clientpath);
         }
-        if (request == "delete") {
+        else if (request == "delete") {
             client.handleDelete();
         }
-        if (request == "query") {
+        else if (request == "query") {
             client.handleQuery();
         }
-        if (request == "quit") {
+        else (request == "quit") {
             client.handleQuit();
         }
         serverResp serverResp;
