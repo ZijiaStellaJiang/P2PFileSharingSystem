@@ -31,10 +31,10 @@ void peerServer::run() {
         cerr<<"Error to listen on the port"<<endl;
         exit(EXIT_FAILURE);
     }
-    //build deamon
-    int port=serv.getPort();
+    
+    //int port=serv.getPort();
     serv.tryListen();
-    cout << "Waiting for connection on port for sharing " << port << endl;
+    //cout << "Waiting for connection on port for sharing " << port << endl;
 
     while(true){
         // Accept one connection in the queue

@@ -1,5 +1,6 @@
 #include "client.h"
 #include <fstream>
+#include <iostream>
 
 client::client(const char * ipAddr, int port) {
     this->errorCode = 0;
@@ -110,22 +111,21 @@ void client::setReq(fileInfo * fileReq, string file_name,int file_size, int file
     fileReq->set_file_ttl(file_ttl);
 }
 
-void client::handleShare(){
+void client::handleShare(int sharePort, string path){
     clientRequest request;
     C2SShare * shareReq = new C2SShare();
     cout<<"please input the number of file you want to share: "<<endl;
     int time;
     cin>>time;
-    cout<<"please input the port you want to share the file"<<endl;
-    int port;
-    cin>>port;
-    shareReq->set_port(port);
+    // cout<<"please input the port you want to share the file"<<endl;
+    // int port;
+    // cin>>port;
+    shareReq->set_port(sharePort);
     while(time-->0){
         fileInfo* fileinfo=shareReq->add_file_info();
         cout<<"please input the File name you want to share"<<endl;
-        string line;
-        cin>>line;
-        string filename=line;
+        string filename;
+        cin>>filename;
         cout<<"please input the File size you want to share"<<endl;
         int size;
         cin>>size;
@@ -133,6 +133,12 @@ void client::handleShare(){
         int ttl;
         cin>>ttl;
         setReq(fileinfo,filename,size,ttl);
+
+        // add to client's folder
+        string filePath(path);
+        filePath = filePath + '/' + "share/" + filename + ".txt";
+        fstream fs (filePath, fstream::in | fstream::out);
+        fs.close();
     }
     request.set_allocated_req_share(shareReq);
     resMesg(socket_fd,request);
@@ -175,22 +181,23 @@ void client::handleQuit(){
     resMesg(socket_fd,request);
 }
 //method to send server request;
-void client::sendRequest(){
+string client::sendRequest(){
     string type;
     cout<<" what do you want to do? \n 1. share\n 2. delete\n 3. query\n 4. quit\n"<<endl;
     getline(cin,type);
-    if(type=="share"){
-        handleShare();
-    }
-    if(type=="delete"){
-       handleDelete();
-    }
-    if(type=="query"){
-        handleQuery();
-    }
-    if(type=="quit"){
-      handleQuit();
-    }
+    return type;
+    // if(type=="share"){
+    //     handleShare();
+    // }
+    // if(type=="delete"){
+    //    handleDelete();
+    // }
+    // if(type=="query"){
+    //     handleQuery();
+    // }
+    // if(type=="quit"){
+    //   handleQuit();
+    // }
 }
 //method to analyze the server response
 void client::handleResponse(const serverResp& serverResp){
@@ -239,6 +246,5 @@ void client::handleResponse(const serverResp& serverResp){
         }else{
            cout<<" Quit cancelled "<<endl;
         }
-        
     }
 }

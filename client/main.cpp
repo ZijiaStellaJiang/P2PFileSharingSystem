@@ -24,51 +24,71 @@ using namespace std;
 void connectp2pServer(client & client, char* name);
 string createFolder(char* client_name);
 
+/**
+ * argv should be like this pattern:
+ * ./main [server's ip address] [client's name]
+*/
 int main(int argc, char *argv[]){
     const char * ipAddr = argv[1];
-    int peerPort = atoi(argv[2]);
-    char * clientName = argv[3];
-    client client(ipAddr,3333);
+    char * clientName = argv[2];
+    client client(ipAddr, 3333);
     connectp2pServer(client, clientName);
     string clientpath = createFolder(clientName);
 
     // open a thread to run peer server socket
-    peerServer prServer(peerPort);
-    thread thrd(&peerServer::run, &prServer);
-    thrd.detach();
-    
-    client.sendRequest();
+    // cout << "Please decide a port for sharing your file: " << endl;
+    // int peerPort;
+    // cin >> peerPort;
+    // peerServer prServer(peerPort);
+    // thread thrd(&peerServer::run, &prServer);
+    // thrd.detach();
 
-    // connect with the peer server for sharing file
-    // try connection here
-    // place holder, should use request type later for condition
-    if (argc == 6) {
-        const int sharePort = atoi(argv[4]);
-        // this sharePort should be passed as a parameter later from the S2CQuery
-        peerClient prClient(ipAddr, sharePort);
-        char * sharemsg = argv[5];
-        int prSvFd = prClient.getSocketFd();
-        prClient.trySendMessage(sharemsg, prSvFd);
-        char buffer[512];
-        prClient.tryRecvMessage(buffer, 0, prClient.getSocketFd());
-        cout << "my peer send me file with filename: " << buffer << endl;
+    // interact with client, deal with its requests
+    while(true) {
+        string request = client.sendRequest();
+        if (request == "share") {
+            cout << "Please decide a port for sharing your file: " << endl;
+            int peerPort;
+            cin >> peerPort;
+            client.handleShare(peerPort, clientpath);
+        }
+        if (request == "delete") {
+            client.handleDelete();
+        }
+        if (request == "query") {
+            client.handleQuery();
+        }
+        if (request == "quit") {
+            client.handleQuit();
+        }
+        serverResp serverResp;
+        client.recvMesg(client.getSocketFd(), serverResp);
+        client.handleResponse(serverResp);
     }
 
-    // sample of how to communicate with request
-    int fd=client.getSocketFd();
-    while(true){
-        clientRequest *QuitRequest = new clientRequest();
-        C2SQuit *quit = new C2SQuit();
-        quit->set_request_quit(1);
-        QuitRequest->set_allocated_req_quit(quit);
-        client.resMesg(fd,*QuitRequest);
-    }
 
 
-    // if the client wants to quit, then delete the folder
-    rmdir((clientpath).c_str());
 
-    // close the client
+    // // connect with the peer server for sharing file
+    // // try connection here
+    // // place holder, should use request type later for condition
+    // if (argc == 6) {
+    //     const int sharePort = atoi(argv[4]);
+    //     // this sharePort should be passed as a parameter later from the S2CQuery
+    //     peerClient prClient(ipAddr, sharePort);
+    //     char * sharemsg = argv[5];
+    //     int prSvFd = prClient.getSocketFd();
+    //     prClient.trySendMessage(sharemsg, prSvFd);
+    //     char buffer[512];
+    //     prClient.tryRecvMessage(buffer, 0, prClient.getSocketFd());
+    //     cout << "my peer send me file with filename: " << buffer << endl;
+    // }
+
+
+    // // if the client wants to quit, then delete the folder
+    // rmdir((clientpath).c_str());
+
+    // // close the client
 
     return 0;
 }
