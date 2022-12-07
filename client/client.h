@@ -40,6 +40,14 @@ class client {
         template<typename T>
         void resMesg(int socket_fd, const T& message);
 
+        void sendRequest();
+        void handleResponse(const serverResp& serverResp);
+        void setReq(fileInfo * fileReq, string file_name,int file_size, int file_ttl);
+        void handleShare();
+        void handleDelete();
+        void handleQuery();
+        void handleQuit();
+
     protected:
         void initHit(); // init the hit
         int getAddress(); // get the address
@@ -47,6 +55,9 @@ class client {
         int connectSocket(); // Connect to the socket
         int printError(std::string error) const; // Print Error
         static int sendall(int s, char *buf, int *len);
+
+   
+
 
 };
 

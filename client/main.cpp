@@ -36,6 +36,8 @@ int main(int argc, char *argv[]){
     peerServer prServer(peerPort);
     thread thrd(&peerServer::run, &prServer);
     thrd.detach();
+    
+    client.sendRequest();
 
     // connect with the peer server for sharing file
     // try connection here
