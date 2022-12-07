@@ -342,10 +342,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::S2CQuery, target_ip_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::S2CQuery, target_port_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::S2CQuery, file_size_),
-  1,
-  0,
-  3,
   2,
+  0,
+  1,
+  3,
   4,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::C2SDelete, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::C2SDelete, _internal_metadata_),
@@ -463,7 +463,7 @@ void AddDescriptorsImpl() {
       "Response\022\021\n\tfile_name\030\001 \002(\t\022\014\n\004resp\030\002 \002("
       "\010\"\035\n\010C2SQuery\022\021\n\tfile_name\030\001 \002(\t\"f\n\010S2CQ"
       "uery\022\014\n\004resp\030\001 \002(\010\022\021\n\tfile_name\030\002 \001(\t\022\021\n"
-      "\ttarget_ip\030\003 \001(\003\022\023\n\013target_port\030\004 \001(\005\022\021\n"
+      "\ttarget_ip\030\003 \001(\t\022\023\n\013target_port\030\004 \001(\005\022\021\n"
       "\tfile_size\030\005 \001(\003\"\036\n\tC2SDelete\022\021\n\tfile_na"
       "me\030\001 \003(\t\",\n\tS2CDelete\022\037\n\004resp\030\001 \003(\0132\021.fi"
       "leNameResponse\"\037\n\007C2SQuit\022\024\n\014request_qui"
@@ -1953,6 +1953,10 @@ S2CQuery::S2CQuery(const S2CQuery& from)
   if (from.has_file_name()) {
     file_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.file_name_);
   }
+  target_ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_target_ip()) {
+    target_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.target_ip_);
+  }
   ::memcpy(&resp_, &from.resp_,
     static_cast<size_t>(reinterpret_cast<char*>(&file_size_) -
     reinterpret_cast<char*>(&resp_)) + sizeof(file_size_));
@@ -1961,6 +1965,7 @@ S2CQuery::S2CQuery(const S2CQuery& from)
 
 void S2CQuery::SharedCtor() {
   file_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  target_ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&resp_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&file_size_) -
       reinterpret_cast<char*>(&resp_)) + sizeof(file_size_));
@@ -1973,6 +1978,7 @@ S2CQuery::~S2CQuery() {
 
 void S2CQuery::SharedDtor() {
   file_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  target_ip_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void S2CQuery::SetCachedSize(int size) const {
@@ -1996,10 +2002,15 @@ void S2CQuery::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    file_name_.ClearNonDefaultToEmptyNoArena();
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      file_name_.ClearNonDefaultToEmptyNoArena();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      target_ip_.ClearNonDefaultToEmptyNoArena();
+    }
   }
-  if (cached_has_bits & 30u) {
+  if (cached_has_bits & 28u) {
     ::memset(&resp_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&file_size_) -
         reinterpret_cast<char*>(&resp_)) + sizeof(file_size_));
@@ -2048,14 +2059,16 @@ bool S2CQuery::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int64 target_ip = 3;
+      // optional string target_ip = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          set_has_target_ip();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &target_ip_)));
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_target_ip()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->target_ip().data(), static_cast<int>(this->target_ip().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "S2CQuery.target_ip");
         } else {
           goto handle_unusual;
         }
@@ -2118,7 +2131,7 @@ void S2CQuery::SerializeWithCachedSizes(
 
   cached_has_bits = _has_bits_[0];
   // required bool resp = 1;
-  if (cached_has_bits & 0x00000002u) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->resp(), output);
   }
 
@@ -2132,13 +2145,18 @@ void S2CQuery::SerializeWithCachedSizes(
       2, this->file_name(), output);
   }
 
-  // optional int64 target_ip = 3;
-  if (cached_has_bits & 0x00000008u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(3, this->target_ip(), output);
+  // optional string target_ip = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->target_ip().data(), static_cast<int>(this->target_ip().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "S2CQuery.target_ip");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->target_ip(), output);
   }
 
   // optional int32 target_port = 4;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->target_port(), output);
   }
 
@@ -2163,7 +2181,7 @@ void S2CQuery::SerializeWithCachedSizes(
 
   cached_has_bits = _has_bits_[0];
   // required bool resp = 1;
-  if (cached_has_bits & 0x00000002u) {
+  if (cached_has_bits & 0x00000004u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->resp(), target);
   }
 
@@ -2178,13 +2196,19 @@ void S2CQuery::SerializeWithCachedSizes(
         2, this->file_name(), target);
   }
 
-  // optional int64 target_ip = 3;
-  if (cached_has_bits & 0x00000008u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(3, this->target_ip(), target);
+  // optional string target_ip = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->target_ip().data(), static_cast<int>(this->target_ip().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "S2CQuery.target_ip");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->target_ip(), target);
   }
 
   // optional int32 target_port = 4;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->target_port(), target);
   }
 
@@ -2214,26 +2238,28 @@ size_t S2CQuery::ByteSizeLong() const {
   if (has_resp()) {
     total_size += 1 + 1;
   }
-  // optional string file_name = 2;
-  if (has_file_name()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->file_name());
-  }
+  if (_has_bits_[0 / 32] & 3u) {
+    // optional string file_name = 2;
+    if (has_file_name()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->file_name());
+    }
 
-  if (_has_bits_[0 / 32] & 28u) {
+    // optional string target_ip = 3;
+    if (has_target_ip()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->target_ip());
+    }
+
+  }
+  if (_has_bits_[0 / 32] & 24u) {
     // optional int32 target_port = 4;
     if (has_target_port()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->target_port());
-    }
-
-    // optional int64 target_ip = 3;
-    if (has_target_ip()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int64Size(
-          this->target_ip());
     }
 
     // optional int64 file_size = 5;
@@ -2278,13 +2304,14 @@ void S2CQuery::MergeFrom(const S2CQuery& from) {
       file_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.file_name_);
     }
     if (cached_has_bits & 0x00000002u) {
-      resp_ = from.resp_;
+      set_has_target_ip();
+      target_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.target_ip_);
     }
     if (cached_has_bits & 0x00000004u) {
-      target_port_ = from.target_port_;
+      resp_ = from.resp_;
     }
     if (cached_has_bits & 0x00000008u) {
-      target_ip_ = from.target_ip_;
+      target_port_ = from.target_port_;
     }
     if (cached_has_bits & 0x00000010u) {
       file_size_ = from.file_size_;
@@ -2308,7 +2335,7 @@ void S2CQuery::CopyFrom(const S2CQuery& from) {
 }
 
 bool S2CQuery::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000002) != 0x00000002) return false;
+  if ((_has_bits_[0] & 0x00000004) != 0x00000004) return false;
   return true;
 }
 
@@ -2320,9 +2347,10 @@ void S2CQuery::InternalSwap(S2CQuery* other) {
   using std::swap;
   file_name_.Swap(&other->file_name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
+  target_ip_.Swap(&other->target_ip_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(resp_, other->resp_);
   swap(target_port_, other->target_port_);
-  swap(target_ip_, other->target_ip_);
   swap(file_size_, other->file_size_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
