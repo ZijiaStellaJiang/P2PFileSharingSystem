@@ -12,7 +12,7 @@ server.o: server.cpp server.h buffer.h
 database.o: database.cpp database.h
 	g++ $(CFLAGS) -c database.cpp ./protocol/server_peer.pb.cc $(LIBS)
 p2pserver.o: p2pserver.cpp p2pserver.h server.h request.h buffer.h database.h
-	g++ $(CFLAGS) -c p2pserver.cpp ./protocol/server_peer.pb.cc $(LIBS)
+	g++ $(CFLAGS) -c p2pserver.cpp server.cpp ./protocol/server_peer.pb.cc $(LIBS)
 main.o: main.cpp server.h p2pserver.h request.h buffer.h database.h
 	g++ $(CFLAGS) -c main.cpp ./protocol/server_peer.pb.cc $(LIBS)
 

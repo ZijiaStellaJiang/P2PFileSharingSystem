@@ -4,7 +4,7 @@
 
 #include <fstream>
 
-server::server(int port) {
+void server::setServer(int port) {
     this->errorCode = 0;
     this->port = port;
     initHit();

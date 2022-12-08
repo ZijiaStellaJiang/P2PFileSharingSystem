@@ -3,11 +3,12 @@
 using namespace std;
 typedef void *(*THREADFUNCPTR)(void *);
 pthread_mutex_t mutex_lock = PTHREAD_MUTEX_INITIALIZER;
-server p2pserver::serverr = server(3333);
+// server p2pserver::serverr = server(3333);
 
 void p2pserver::run() {
     cout << "Start Running P2P Directory Server.." << endl;
     cout << " " << endl;
+    serverr.setServer(3333);
     if (serverr.getErrorCode() == -1 || serverr.tryListen() == -1) {
         cerr << "Error to listen on the port" << endl;
         exit(EXIT_FAILURE);
@@ -30,14 +31,13 @@ void p2pserver::run() {
 }
 
 void p2pserver::executeThread(request *req) {
-    while(true) {
+    while (true) {
         clientRequest clientReq;
         int res = serverr.recvMesg(req->getFd(), clientReq);
         if (res == 1) {
             handleRequest(clientReq, req->getIpAddress(), req->getFd());
         }
     }
-    
 }
 
 void p2pserver::sendResponse(const serverResp &serverResp, int user_fd) {

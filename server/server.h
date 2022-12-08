@@ -36,11 +36,13 @@ class server {
     std::string clientIp;
 
    public:
+    server(){};
+    ~server(){};
     int getClientFd() const;
 
     const std::string &getClientIp() const;
 
-    server(int port);
+    void setServer(int port);
 
     int tryListen();
 

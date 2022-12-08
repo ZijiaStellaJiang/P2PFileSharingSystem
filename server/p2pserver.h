@@ -29,7 +29,7 @@ using namespace std;
 
 class p2pserver {
    private:
-    static server serverr;
+    server serverr;
     ServerData p2pDatabase;
 
     // request handler
