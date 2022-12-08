@@ -21,17 +21,16 @@
 #include "buffer.h"
 using namespace std;
 
-string createFolder(char* client_name);
+string createFolder(const char* client_name);
 
 /**
  * argv should be like this pattern:
- * ./main [server's ip address] [client's name]
+ * ./main [server's ip address]
 */
 int main(int argc, char *argv[]){
     const char * ipAddr = argv[1];
-    char * clientName = argv[2];
     client client(ipAddr, 3333);
-    string clientpath = createFolder(clientName);
+    string clientpath = createFolder(ipAddr);
 
     // open a thread to run peer server socket
     cout << "Please decide a port for sharing your file: " << endl;
@@ -45,13 +44,14 @@ int main(int argc, char *argv[]){
     while(true) {
         string request = client.sendRequest();
         if (request == "share") {
-            client.handleShare(clientpath);
+            client.handleShare(peerPort, clientpath);
         }
         else if (request == "delete") {
             client.handleDelete();
         }
         else if (request == "query") {
             client.handleQuery();
+
         }
         else if (request == "quit") {
             client.handleQuit();
@@ -62,14 +62,8 @@ int main(int argc, char *argv[]){
     }
 
 
-
-
-    // // connect with the peer server for sharing file
-    // // try connection here
-    // // place holder, should use request type later for condition
     // if (argc == 6) {
     //     const int sharePort = atoi(argv[4]);
-    //     // this sharePort should be passed as a parameter later from the S2CQuery
     //     peerClient prClient(ipAddr, sharePort);
     //     char * sharemsg = argv[5];
     //     int prSvFd = prClient.getSocketFd();
@@ -94,7 +88,7 @@ int main(int argc, char *argv[]){
  * return the path of this client's folder: currentpath/clientFile/client_name
  * this folder will be deleted if the client choose to quit p2p network
 */
-string createFolder(char* client_name) {
+string createFolder(const char* client_name) {
     // get the current path of this client
     char curr_folder[512];
     getcwd(curr_folder, sizeof(curr_folder));

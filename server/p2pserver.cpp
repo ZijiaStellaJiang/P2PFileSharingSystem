@@ -30,17 +30,28 @@ void p2pserver::run() {
 }
 
 void p2pserver::executeThread(request *req) {
-    clientRequest clientReq;
-    int res = serverr.recvMesg(req->getFd(), clientReq);
-    if (res == 1) {
-        handleRequest(clientReq, req->getIpAddress(), req->getFd());
+    while(true) {
+        clientRequest clientReq;
+        int res = serverr.recvMesg(req->getFd(), clientReq);
+        if (res == 1) {
+            handleRequest(clientReq, req->getIpAddress(), req->getFd());
+        }
     }
+    
 }
 
 void p2pserver::sendResponse(const serverResp &serverResp, int user_fd) {
     cout << " " << endl;
-    cout << "Send Server Response" << endl;
     serverr.resMesg(user_fd, serverResp);
+
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
     // if (serverResp.has_err()) {
     //     cout << "error request" << endl;
     // }

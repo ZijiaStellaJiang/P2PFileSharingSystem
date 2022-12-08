@@ -111,12 +111,9 @@ void client::setReq(fileInfo * fileReq, string file_name,int file_size, int file
     fileReq->set_file_ttl(file_ttl);
 }
 
-void client::handleShare(string path){
+void client::handleShare(int port, string path){
     clientRequest request;
     C2SShare * shareReq = new C2SShare();
-    cout<<"please input the port you want to share the file"<<endl;
-    int port;
-    cin>>port;
     cout<<"please input the number of file you want to share: "<<endl;
     int time;
     cin>>time;
@@ -137,8 +134,10 @@ void client::handleShare(string path){
         // add to client's folder
         string filePath(path);
         filePath = filePath + '/' + "share/" + filename + ".txt";
-        fstream fs (filePath, fstream::in | fstream::out);
-        fs.close();
+        ofstream file;
+        file.open(filePath, ios::out | ios:: app);
+        //fstream fs (filePath, fstream::in | fstream::out);
+        //fs.close();
     }
     request.set_allocated_req_share(shareReq);
     resMesg(socket_fd,request);
@@ -166,7 +165,8 @@ void client::handleQuery(){
     string line;
     cin>>line;
     string filename=line;
-    queryReq->set_allocated_file_name(&filename);
+    queryReq->set_file_name(filename);
+    //queryReq->set_allocated_file_name(&filename);
     request.set_allocated_req_query(queryReq);
     resMesg(socket_fd,request);
 }
@@ -184,23 +184,12 @@ void client::handleQuit(){
 string client::sendRequest(){
     string type;
     cout<<" what do you want to do? \n 1. share\n 2. delete\n 3. query\n 4. quit\n"<<endl;
-    getline(cin,type);
+    cin >> type;
     return type;
-    // if(type=="share"){
-    //     handleShare();
-    // }
-    // if(type=="delete"){
-    //    handleDelete();
-    // }
-    // if(type=="query"){
-    //     handleQuery();
-    // }
-    // if(type=="quit"){
-    //   handleQuit();
-    // }
 }
 //method to analyze the server response
 void client::handleResponse(const serverResp& serverResp){
+    cout << "is query " << serverResp.has_resp_query() << endl;
      if(serverResp.has_resp_share()){
         S2CShare share = serverResp.resp_share();
         cout<<"Share, number of share files "<< share.resp_size()<<endl;
@@ -214,7 +203,9 @@ void client::handleResponse(const serverResp& serverResp){
         }
     }
     if(serverResp.has_resp_query()){
+        cout << "breakpoint1 start" << endl;
         S2CQuery query = serverResp.resp_query();
+        cout << "breakpoint2 " << endl;
         if(query.resp()){
             cout<<"Result: "<<" Query succeed "<<endl;
             cout<<"File name: "<<query.file_name()<<endl;
@@ -225,6 +216,8 @@ void client::handleResponse(const serverResp& serverResp){
             cout<<"Result: "<<" Query failed "<<endl;
         }
         // start the peer client and ask for file from the target client
+        //peerClient prclient(query.target_ip(), query.target_port());
+        //char * path = 
     }
     if(serverResp.has_resp_delete()){
         S2CDelete del = serverResp.resp_delete();
