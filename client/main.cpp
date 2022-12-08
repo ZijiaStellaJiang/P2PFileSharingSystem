@@ -21,7 +21,6 @@
 #include "buffer.h"
 using namespace std;
 
-void connectp2pServer(client & client, char* name);
 string createFolder(char* client_name);
 
 /**
@@ -32,25 +31,21 @@ int main(int argc, char *argv[]){
     const char * ipAddr = argv[1];
     char * clientName = argv[2];
     client client(ipAddr, 3333);
-    connectp2pServer(client, clientName);
     string clientpath = createFolder(clientName);
 
     // open a thread to run peer server socket
-    // cout << "Please decide a port for sharing your file: " << endl;
-    // int peerPort;
-    // cin >> peerPort;
-    // peerServer prServer(peerPort);
-    // thread thrd(&peerServer::run, &prServer);
-    // thrd.detach();
+    cout << "Please decide a port for sharing your file: " << endl;
+    int peerPort;
+    cin >> peerPort;
+    peerServer prServer(peerPort);
+    thread thrd(&peerServer::run, &prServer);
+    thrd.detach();
 
     // interact with client, deal with its requests
     while(true) {
         string request = client.sendRequest();
         if (request == "share") {
-            cout << "Please decide a port for sharing your file: " << endl;
-            int peerPort;
-            cin >> peerPort;
-            client.handleShare(peerPort, clientpath);
+            client.handleShare(clientpath);
         }
         else if (request == "delete") {
             client.handleDelete();
@@ -58,7 +53,7 @@ int main(int argc, char *argv[]){
         else if (request == "query") {
             client.handleQuery();
         }
-        else (request == "quit") {
+        else if (request == "quit") {
             client.handleQuit();
         }
         serverResp serverResp;
@@ -91,14 +86,6 @@ int main(int argc, char *argv[]){
     // // close the client
 
     return 0;
-}
-
-void connectp2pServer(client & client, char* name) {
-    cout << "Connected to p2p server on port 3333" << endl;
-    string message(name);
-    message += " joins the p2p network.";
-    int fd = client.getSocketFd();
-    client.trySendMessage(const_cast<char*>(message.c_str()), fd);
 }
 
 /**

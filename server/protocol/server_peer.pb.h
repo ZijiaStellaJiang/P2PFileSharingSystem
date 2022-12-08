@@ -855,6 +855,21 @@ class S2CQuery : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_file_name();
   void set_allocated_file_name(::std::string* file_name);
 
+  // optional string target_ip = 3;
+  bool has_target_ip() const;
+  void clear_target_ip();
+  static const int kTargetIpFieldNumber = 3;
+  const ::std::string& target_ip() const;
+  void set_target_ip(const ::std::string& value);
+  #if LANG_CXX11
+  void set_target_ip(::std::string&& value);
+  #endif
+  void set_target_ip(const char* value);
+  void set_target_ip(const char* value, size_t size);
+  ::std::string* mutable_target_ip();
+  ::std::string* release_target_ip();
+  void set_allocated_target_ip(::std::string* target_ip);
+
   // required bool resp = 1;
   bool has_resp() const;
   void clear_resp();
@@ -868,13 +883,6 @@ class S2CQuery : public ::google::protobuf::Message /* @@protoc_insertion_point(
   static const int kTargetPortFieldNumber = 4;
   ::google::protobuf::int32 target_port() const;
   void set_target_port(::google::protobuf::int32 value);
-
-  // optional int64 target_ip = 3;
-  bool has_target_ip() const;
-  void clear_target_ip();
-  static const int kTargetIpFieldNumber = 3;
-  ::google::protobuf::int64 target_ip() const;
-  void set_target_ip(::google::protobuf::int64 value);
 
   // optional int64 file_size = 5;
   bool has_file_size() const;
@@ -900,9 +908,9 @@ class S2CQuery : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr file_name_;
+  ::google::protobuf::internal::ArenaStringPtr target_ip_;
   bool resp_;
   ::google::protobuf::int32 target_port_;
-  ::google::protobuf::int64 target_ip_;
   ::google::protobuf::int64 file_size_;
   friend struct ::protobuf_server_5fpeer_2eproto::TableStruct;
 };
@@ -2103,13 +2111,13 @@ inline void C2SQuery::set_allocated_file_name(::std::string* file_name) {
 
 // required bool resp = 1;
 inline bool S2CQuery::has_resp() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void S2CQuery::set_has_resp() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void S2CQuery::clear_has_resp() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void S2CQuery::clear_resp() {
   resp_ = false;
@@ -2191,39 +2199,81 @@ inline void S2CQuery::set_allocated_file_name(::std::string* file_name) {
   // @@protoc_insertion_point(field_set_allocated:S2CQuery.file_name)
 }
 
-// optional int64 target_ip = 3;
+// optional string target_ip = 3;
 inline bool S2CQuery::has_target_ip() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void S2CQuery::set_has_target_ip() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void S2CQuery::clear_has_target_ip() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void S2CQuery::clear_target_ip() {
-  target_ip_ = GOOGLE_LONGLONG(0);
+  target_ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   clear_has_target_ip();
 }
-inline ::google::protobuf::int64 S2CQuery::target_ip() const {
+inline const ::std::string& S2CQuery::target_ip() const {
   // @@protoc_insertion_point(field_get:S2CQuery.target_ip)
-  return target_ip_;
+  return target_ip_.GetNoArena();
 }
-inline void S2CQuery::set_target_ip(::google::protobuf::int64 value) {
+inline void S2CQuery::set_target_ip(const ::std::string& value) {
   set_has_target_ip();
-  target_ip_ = value;
+  target_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:S2CQuery.target_ip)
+}
+#if LANG_CXX11
+inline void S2CQuery::set_target_ip(::std::string&& value) {
+  set_has_target_ip();
+  target_ip_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:S2CQuery.target_ip)
+}
+#endif
+inline void S2CQuery::set_target_ip(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_target_ip();
+  target_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:S2CQuery.target_ip)
+}
+inline void S2CQuery::set_target_ip(const char* value, size_t size) {
+  set_has_target_ip();
+  target_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:S2CQuery.target_ip)
+}
+inline ::std::string* S2CQuery::mutable_target_ip() {
+  set_has_target_ip();
+  // @@protoc_insertion_point(field_mutable:S2CQuery.target_ip)
+  return target_ip_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* S2CQuery::release_target_ip() {
+  // @@protoc_insertion_point(field_release:S2CQuery.target_ip)
+  if (!has_target_ip()) {
+    return NULL;
+  }
+  clear_has_target_ip();
+  return target_ip_.ReleaseNonDefaultNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void S2CQuery::set_allocated_target_ip(::std::string* target_ip) {
+  if (target_ip != NULL) {
+    set_has_target_ip();
+  } else {
+    clear_has_target_ip();
+  }
+  target_ip_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), target_ip);
+  // @@protoc_insertion_point(field_set_allocated:S2CQuery.target_ip)
 }
 
 // optional int32 target_port = 4;
 inline bool S2CQuery::has_target_port() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void S2CQuery::set_has_target_port() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void S2CQuery::clear_has_target_port() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void S2CQuery::clear_target_port() {
   target_port_ = 0;

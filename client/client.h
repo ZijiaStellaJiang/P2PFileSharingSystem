@@ -43,7 +43,7 @@ class client {
         string sendRequest();
         void handleResponse(const serverResp& serverResp);
         void setReq(fileInfo * fileReq, string file_name,int file_size, int file_ttl);
-        void handleShare(int sharePort, string path);
+        void handleShare(string path);
         void handleDelete();
         void handleQuery();
         void handleQuit();

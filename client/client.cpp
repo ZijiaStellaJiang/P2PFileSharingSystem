@@ -111,16 +111,16 @@ void client::setReq(fileInfo * fileReq, string file_name,int file_size, int file
     fileReq->set_file_ttl(file_ttl);
 }
 
-void client::handleShare(int sharePort, string path){
+void client::handleShare(string path){
     clientRequest request;
     C2SShare * shareReq = new C2SShare();
+    cout<<"please input the port you want to share the file"<<endl;
+    int port;
+    cin>>port;
     cout<<"please input the number of file you want to share: "<<endl;
     int time;
     cin>>time;
-    // cout<<"please input the port you want to share the file"<<endl;
-    // int port;
-    // cin>>port;
-    shareReq->set_port(sharePort);
+    shareReq->set_port(port);
     while(time-->0){
         fileInfo* fileinfo=shareReq->add_file_info();
         cout<<"please input the File name you want to share"<<endl;

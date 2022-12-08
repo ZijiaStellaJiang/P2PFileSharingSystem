@@ -31,7 +31,7 @@ message C2SQuery{
 message S2CQuery{
     required bool resp = 1;
     optional string file_name = 2; 
-    optional int64 target_ip = 3;
+    optional string target_ip = 3;
     optional int32 target_port = 4;
     optional int64 file_size = 5;
 }
