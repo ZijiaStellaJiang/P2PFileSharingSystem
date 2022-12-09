@@ -4,8 +4,8 @@ SERVER_C = ../server/server.cpp
 PROTOCOL_CC = ../server/protocol/server_peer.pb.cc
 PROFLAG = -lpqxx -lpq -lprotobuf
 
-main-refine: main-refine.o client.o buffer.o peerServer.o server.o peerClient.o p2pClient.o
-	g++ -o main-refine main-refine.o client.o buffer.o peerServer.o server.o peerClient.o p2pClient.o $(PROTOCOL_CC) -pthread $(PROFLAG)
+main: main.o client.o buffer.o peerServer.o server.o peerClient.o p2pClient.o
+	g++ -o main main.o client.o buffer.o peerServer.o server.o peerClient.o p2pClient.o $(PROTOCOL_CC) -pthread $(PROFLAG)
 p2pClient.o: p2pClient.cpp p2pClient.h client.h buffer.h peerClient.h peerServer.h $(SERVER_H)
 	g++ $(CFLAGS) -c p2pClient.cpp $(PROTOCOL_CC) $(PROFLAG) -lpthread
 buffer.o: buffer.cpp buffer.h
@@ -18,11 +18,11 @@ peerClient.o: peerClient.cpp peerClient.h client.h buffer.h
 	g++ $(CFLAGS) -c peerClient.cpp -pthread $(PROTOCOL_CC) $(PROFLAG) -lpthread
 server.o: $(SERVER_C) $(SERVER_H)
 	g++ $(CFLAGS) -c $(SERVER_C) -pthread
-main-refine.o: main-refine.cpp client.h peerServer.h $(SERVER_H) peerClient.h buffer.h p2pClient.h
-	g++ $(CFLAGS) -c main-refine.cpp p2pClient.cpp -pthread $(PROTOCOL_CC) $(PROFLAG) -lpthread
+main.o: main.cpp client.h peerServer.h $(SERVER_H) peerClient.h buffer.h p2pClient.h
+	g++ $(CFLAGS) -c main.cpp p2pClient.cpp -pthread $(PROTOCOL_CC) $(PROFLAG) -lpthread
 
 clean:
-	rm -f main-refine *.o
+	rm -f main *.o
 
 	
 

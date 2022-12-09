@@ -8,8 +8,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 #include "../server/server.h"
@@ -21,11 +21,13 @@
 class peerServer {
    private:
     server serv;
+    string share_path;
 
    public:
     peerServer(){};
     ~peerServer(){};
-    // peerServer(int port) : serv(server(port)) {}
+
+    void add_sharepath(string sharepath) { share_path = sharepath; }
     void run();
     void execute();
     void setup(int port);

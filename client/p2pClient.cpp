@@ -10,6 +10,8 @@ void p2pClient::create_folder() {
     download_path = path + '/' + "Download";
     mkdir(share_path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     mkdir(download_path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+    pServer.add_sharepath(share_path);
 }
 
 void p2pClient::run(int peer_port) {
@@ -30,13 +32,15 @@ void p2pClient::run(int peer_port) {
             handleDelete();
         } else if (client_req == "3") {
             handleQuery();
-
         } else if (client_req == "4") {
             err = handleQuit();
         } else {
+            cout << endl;
             cout << "Please enter valid choice number." << endl;
+            cout << endl;
             continue;
         }
+
         if (err) {
             continue;
         }
@@ -50,13 +54,12 @@ int p2pClient::handleShare(int peer_port) {
     clientRequest request;
     C2SShare *shareReq = new C2SShare();
     cout << endl;
-    cout << "Reminder: Please add the file you would like to share in the "
-            "folder ./Share"
+    cout << "Reminder: To share a file, Please add the file in the "
+            "folder ./Share. The file NOT in the ./Share folder will NOT be "
+            "shared"
          << endl;
-    cout << "The file NOT in the ./Share folder will NOT be shared" << endl;
     cout << endl;
-    cout << "Please enter the number of files you want to share (min 1): "
-         << endl;
+    cout << "Please enter the number of files you want to share: " << endl;
     int time;
     cin >> time;
     shareReq->set_port(peer_port);
@@ -69,9 +72,11 @@ int p2pClient::handleShare(int peer_port) {
         cin >> filename;
         bool isFile = is_file(filename);
         if (!isFile) {
+            cout << endl;
             cout << "The filename you entered is not in the ./Share folder, "
                     "please add the file first."
                  << endl;
+            cout << endl;
             return 1;
         }
         cout << "Please enter the File size:" << endl;
@@ -119,7 +124,7 @@ void p2pClient::handleDelete() {
     int i = 1;
     while (i <= time) {
         cout << "File " << i << " :" << endl;
-        cout << "Please input the File name you want to delete: " << endl;
+        cout << "Please enter the File name you want to delete: " << endl;
         string name;
         cin >> name;
         string *filename = deleteReq->add_file_name();
@@ -133,7 +138,7 @@ void p2pClient::handleDelete() {
 void p2pClient::handleQuery() {
     clientRequest request;
     C2SQuery *queryReq = new C2SQuery();
-    cout << "Please enter the name of file you want to Query: " << endl;
+    cout << "Please enter the name of files you want to Query: " << endl;
     string line;
     cin >> line;
     string filename = line;
@@ -232,18 +237,20 @@ void p2pClient::close() {
 int p2pClient::downloadfile(S2CQuery query_info) {
     string file_name = query_info.file_name();
     string target_ip = query_info.target_ip();
-    int target_port = query_info.target_port();    
+    int target_port = query_info.target_port();
 
     // Set up peer client and send file name to peer server
     pClient.setclient(target_ip.c_str(), target_port);
-    pClient.trySendMessage(const_cast<char*>(file_name.c_str()), pClient.getSocketFd());
+    pClient.trySendMessage(const_cast<char *>(file_name.c_str()),
+                           pClient.getSocketFd());
 
-    // receive message from peerserver, 'F' indicate no such file in its document
+    // receive message from peerserver, 'F' indicate no such file in its
+    // document
     char has_file[1];
     pClient.tryRecvMessage(has_file, 0, pClient.getSocketFd());
-    if(strcmp(has_file, "F") == 0) return 0;
+    if (strcmp(has_file, "F") == 0) return 0;
 
-    // create a file in ./Download folder with the file_name 
+    // create a file in ./Download folder with the file_name
     string file_path = download_path + '/' + file_name;
     fstream file;
     file.open(file_path, ios::binary | ios::out);

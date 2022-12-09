@@ -3,7 +3,6 @@
 using namespace std;
 typedef void *(*THREADFUNCPTR)(void *);
 pthread_mutex_t mutex_lock = PTHREAD_MUTEX_INITIALIZER;
-// server p2pserver::serverr = server(3333);
 
 void p2pserver::run() {
     cout << "Start Running P2P Directory Server.." << endl;
@@ -15,11 +14,11 @@ void p2pserver::run() {
     }
     // build deamon
     int port = serverr.getPort();
-    cout << "Waiting for connection on port " << port << endl;
+    cout << "Server Started, waiting for connection on port " << port << endl;
     while (true) {
         // Accept one connection in the queue
         if (serverr.tryAccept() == -1) {
-            cerr << "Error to accept on the port" << endl;
+            cout << "Error to accept on the port" << endl;
             continue;
         }
         // Create a request
@@ -37,6 +36,9 @@ void p2pserver::executeThread(request *req) {
         if (res == 1) {
             handleRequest(clientReq, req->getIpAddress(), req->getFd());
         }
+        if (res == -1) {
+            break;
+        }
     }
 }
 
@@ -45,43 +47,6 @@ void p2pserver::sendResponse(const serverResp &serverResp, int user_fd) {
     serverr.resMesg(user_fd, serverResp);
 
     cout << "Send Server Response" << endl;
-    cout << "Send Server Response" << endl;
-    cout << "Send Server Response" << endl;
-    cout << "Send Server Response" << endl;
-    cout << "Send Server Response" << endl;
-    cout << "Send Server Response" << endl;
-    cout << "Send Server Response" << endl;
-    cout << "Send Server Response" << endl;
-    // if (serverResp.has_err()) {
-    //     cout << "error request" << endl;
-    // }
-    // if (serverResp.has_resp_share()) {
-    //     S2CShare share = serverResp.resp_share();
-    //     cout << "Share, number of share files " << share.resp_size() << endl;
-    //     for (int i = 0; i < share.resp_size(); i++) {
-    //         fileNameResponse fileResp = share.resp()[i];
-    //         cout << i + 1 << ". File name: " << fileResp.file_name()
-    //              << " Result: " << fileResp.resp() << endl;
-    //     }
-    // }
-    // if (serverResp.has_resp_query()) {
-    //     S2CQuery query = serverResp.resp_query();
-    //     cout << "Query " << endl;
-    //     cout << "Result: " << query.resp() << endl;
-    //     cout << "File name: " << query.file_name() << endl;
-    //     cout << "File size: " << query.file_size() << endl;
-    //     cout << "Target ip: " << query.target_ip() << endl;
-    //     cout << "Target port: " << query.target_port() << endl;
-    // }
-    // if (serverResp.has_resp_delete()) {
-    //     S2CDelete del = serverResp.resp_delete();
-    //     cout << "Delete " << endl;
-    //     for (int i = 0; i < del.resp_size(); i++) {
-    //         fileNameResponse file = del.resp(i);
-    //         cout << i + 1 << ". File Name: " << file.file_name()
-    //              << " Result: " << file.resp() << endl;
-    //     }
-    // }
 }
 
 void p2pserver::handleRequest(const clientRequest &clientRequest,

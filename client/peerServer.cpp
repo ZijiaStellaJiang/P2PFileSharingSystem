@@ -16,18 +16,19 @@ void peerServer::execute() {
     // receive file name from peerclient
     char file_name[256];
     serv.tryRecvMessage(file_name, 0, serv.getClientFd());
-    char curr_path[512];
-    getcwd(curr_path, sizeof(curr_path));
+    // char curr_path[512];
+    // getcwd(curr_path, sizeof(curr_path));
 
     // find file in ./Share folder
-    string currpath(curr_path);
+    // string currpath(curr_path);
     string filename(file_name);
-    string file_path = currpath + '/' + "Share/" + filename;
+    string file_path = share_path + '/' + "Share/" + filename;
     fstream file;
     file.open(file_path, ios::binary | ios::in);
 
     // notify peer client whether the file exists
-    if(file) serv.trySendMessage("T", serv.getClientFd());
+    if (file)
+        serv.trySendMessage("T", serv.getClientFd());
     else {
         serv.trySendMessage("F", serv.getClientFd());
         return;
@@ -36,7 +37,7 @@ void peerServer::execute() {
     file.seekg(0, ios::end);
     int len = file.tellg();
     file.seekg(0, ios::beg);
-    char * file_content = new char[len];
+    char* file_content = new char[len];
     file.read(file_content, len);
     serv.trySendMessage(file_content, serv.getClientFd());
 
