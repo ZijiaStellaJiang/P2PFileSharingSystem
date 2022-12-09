@@ -30,10 +30,11 @@ void peerServer::execute() {
 
     // notify peer client whether the file exists
     cout << "Server Break Point 3" << endl;
-    if (file) cout << "Server Break Point 4" << endl;
-    serv.trySendMessage("T", serv.getClientFd());
-    cout << "Server Break Point 5" << endl;
-    else {
+    if (file) {
+        cout << "Server Break Point 4" << endl;
+        serv.trySendMessage("T", serv.getClientFd());
+        cout << "Server Break Point 5" << endl;
+    } else {
         cout << "Server Break Point 6" << endl;
         serv.trySendMessage("F", serv.getClientFd());
         cout << "Server Break Point 7" << endl;
