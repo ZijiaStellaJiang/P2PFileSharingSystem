@@ -274,15 +274,17 @@ int p2pClient::downloadfile(S2CQuery query_info) {
 
     // Set up peer client and send file name to peer server
     pClient.setclient(target_ip.c_str(), target_port);
+    cout << "Break Point 1 " << endl;
     pClient.trySendMessage(const_cast<char *>(file_name.c_str()),
                            pClient.getSocketFd());
-
+    cout << "Break Point 2 " << endl;
     // receive message from peerserver, 'F' indicate no such file in its
     // document
     char has_file[1];
+    cout << "Break Point 3 " << endl;
     pClient.tryRecvMessage(has_file, 0, pClient.getSocketFd());
     if (strcmp(has_file, "F") == 0) return 0;
-
+    cout << "Break Point 4 " << endl;
     // create a file in ./Download folder with the file_name
     string file_path = download_path + '/' + file_name;
     fstream file;
