@@ -17,7 +17,7 @@ void peerServer::execute() {
     char file_name[256];
     serv.tryRecvMessage(file_name, 0, serv.getClientFd());
     string filename(file_name);
-    cout << share_path << endl;
+
     string file_path = share_path + '/' + filename;
     fstream file;
     file.open(file_path, ios::binary | ios::in);
