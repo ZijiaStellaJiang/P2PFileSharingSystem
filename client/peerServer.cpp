@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <iostream>
 #include <mutex>
 #include <thread>
 
@@ -14,26 +13,35 @@ mutex mtx;
 void peerServer::setup(int port) { serv.setServer(port); }
 
 void peerServer::execute() {
-    mtx.lock();
+    // receive file name from peerclient
+    char file_name[256];
+    serv.tryRecvMessage(file_name, 0, serv.getClientFd());
+    char curr_path[512];
+    getcwd(curr_path, sizeof(curr_path));
 
-    cout << "test thread " << serv.getPort() << endl;
-    char buffer[512];
-    serv.tryRecvMessage(buffer, 0, serv.getClientFd());
-    cout << "peer server received: " << buffer << endl;
+    // find file in ./Share folder
+    string currpath(curr_path);
+    string filename(file_name);
+    string file_path = currpath + '/' + "Share/" + filename;
+    fstream file;
+    file.open(file_path, ios::binary | ios::in);
 
-    // here accept user input, later should fetch from this peerserver's folder
-    // cout << "please provide the filename" << endl;
-    char toShare[1024];
-    // read from file
-    cin.getline(toShare, 1024);
-    // TO ZIJIA:
-    // 1. Get the file name, other user request.
-    // 2. Find the file in the ./Share folder
-    // 3. Send the file content to the other user.
+    // notify peer client whether the file exists
+    if(file) serv.trySendMessage("T", serv.getClientFd());
+    else {
+        serv.trySendMessage("F", serv.getClientFd());
+        return;
+    }
 
-    serv.trySendMessage(toShare, serv.getClientFd());
+    file.seekg(0, ios::end);
+    int len = file.tellg();
+    file.seekg(0, ios::beg);
+    char * file_content = new char[len];
+    file.read(file_content, len);
+    serv.trySendMessage(file_content, serv.getClientFd());
 
-    mtx.unlock();
+    file.close();
+    delete[] file_content;
 }
 
 void peerServer::run() {
@@ -42,9 +50,7 @@ void peerServer::run() {
         exit(EXIT_FAILURE);
     }
 
-    // int port=serv.getPort();
     serv.tryListen();
-    // cout << "Waiting for connection on port for sharing " << port << endl;
 
     while (true) {
         // Accept one connection in the queue
@@ -52,7 +58,8 @@ void peerServer::run() {
             cerr << "Error to accept on the port" << endl;
             continue;
         }
-        execute();
+        thread thrd(&peerServer::execute, this);
+        thrd.detach();
     }
 }
 

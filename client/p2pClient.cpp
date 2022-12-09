@@ -230,23 +230,32 @@ void p2pClient::close() {
 }
 
 int p2pClient::downloadfile(S2CQuery query_info) {
-    // string file_name = query_info.file_name();
-    // int file_size = query_info.file_size();
-    // string target_ip = query_info.target_ip();
-    // int target_port = query_info.target_port();
+    string file_name = query_info.file_name();
+    string target_ip = query_info.target_ip();
+    int target_port = query_info.target_port();    
 
-    // TO ZIJIA: Please add the socket part here:
-    // const char *ip = target_ip.c_str();
-    // pClient.setclient(ip, target_port);
-    // 1. Set up the client (I changed the client little bit so, use
-    // setclient(ip,port))
+    // Set up peer client and send file name to peer server
+    pClient.setclient(target_ip.c_str(), target_port);
+    pClient.trySendMessage(const_cast<char*>(file_name.c_str()), pClient.getSocketFd());
 
-    // example: (not sure, havn't test yet)
-    // const char *ip = target_ip.c_str();
-    // pClient.setclient(ip, target_port);
+    // receive message from peerserver, 'F' indicate no such file in its document
+    char has_file[1];
+    pClient.tryRecvMessage(has_file, 0, pClient.getSocketFd());
+    if(strcmp(has_file, "F") == 0) return 0;
 
-    // 2. receive the file from other user's peerServer
-    // 3. Save the received content in the ./Download folder with the file_name.
-    // 4. Return 1 if success. 0 if not.
+    // create a file in ./Download folder with the file_name 
+    string file_path = download_path + '/' + file_name;
+    fstream file;
+    file.open(file_path, ios::binary | ios::out);
+
+    // receive the file from other user's peerServer
+    char file_content[1024];
+    pClient.tryRecvMessage(file_content, 0, pClient.getSocketFd());
+    file << file_content;
+
+    // close the file and the peer client
+    file.close();
+    pClient.close();
+
     return 1;
 }
