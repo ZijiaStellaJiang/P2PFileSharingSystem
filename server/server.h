@@ -83,12 +83,10 @@ int server::recvMesg(int client_fd, T &message) {
     ssize_t curLen = 0;
     vector<char> buffer(1024);
     curLen = recv(client_fd, buffer.data(), buffer.size(), 0);
-    if (curLen < 0) {
-        cerr << "Error: Fail to receive response from the original server!"
-             << endl;
-    }  // else if(curLen == 0){
-       //  return;
-    //}
+    if (curLen <= 0) {
+        cerr << "Client disconnected from server." << endl;
+        return -1;
+    }
     // get the actual size of the buffer
     uint32_t contentSize = buffer::getContentLength(buffer);
     uint32_t totalSize = 1 + contentSize;
