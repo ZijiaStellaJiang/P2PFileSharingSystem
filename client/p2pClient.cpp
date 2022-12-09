@@ -18,7 +18,8 @@ void p2pClient::run(int peer_port) {
     while (true) {
         string client_req;
         cout << endl;
-        cout << "What do you need today? Please enter the number of the choice "
+        cout << "What do you need today? Please enter the number of the "
+                "choice "
                 "you "
                 "like: \n 1. Share\n 2. Delete\n 3. Query\n 4. "
                 "Quit\n"
@@ -37,10 +38,8 @@ void p2pClient::run(int peer_port) {
         } else {
             cout << endl;
             cout << "Please enter valid choice number." << endl;
-            cout << endl;
             continue;
         }
-
         if (err) {
             continue;
         }
@@ -61,7 +60,15 @@ int p2pClient::handleShare(int peer_port) {
     cout << endl;
     cout << "Please enter the number of files you want to share: " << endl;
     int time;
-    cin >> time;
+
+    while (!(cin >> time)) {
+        cout << "Please enter an int:" << endl;
+        cin.clear();
+        while (cin.get() != '\n') {
+            continue;
+        }
+    };
+
     shareReq->set_port(peer_port);
     int i = 1;
 
@@ -81,12 +88,24 @@ int p2pClient::handleShare(int peer_port) {
         }
         cout << "Please enter the File size:" << endl;
         int size;
-        cin >> size;
+        while (!(cin >> size)) {
+            cout << "Please enter an int:" << endl;
+            cin.clear();
+            while (cin.get() != '\n') {
+                continue;
+            }
+        };
         cout << "Please enter the number of person you would like to share "
                 "with: "
              << endl;
         int ttl;
-        cin >> ttl;
+        while (!(cin >> ttl)) {
+            cout << "Please enter an int:" << endl;
+            cin.clear();
+            while (cin.get() != '\n') {
+                continue;
+            }
+        };
         fileInfo *fileinfo = shareReq->add_file_info();
         setReq(fileinfo, filename, size, ttl);
         i++;
@@ -120,7 +139,14 @@ void p2pClient::handleDelete() {
     C2SDelete *deleteReq = new C2SDelete();
     cout << "Please enter the number of files you want to delete: " << endl;
     int time;
-    cin >> time;
+    while (!(cin >> time)) {
+        cout << "Please enter an int:" << endl;
+        cin.clear();
+        while (cin.get() != '\n') {
+            continue;
+        }
+    };
+
     int i = 1;
     while (i <= time) {
         cout << "File " << i << " :" << endl;
@@ -151,8 +177,15 @@ int p2pClient::handleQuit() {
     clientRequest request;
     C2SQuit *quitReq = new C2SQuit();
     cout << "Are you sure to quit the Network? \n1.Yes\n2.No" << endl;
+
     int num;
-    cin >> num;
+    while (!(cin >> num)) {
+        cout << "Please enter an int:" << endl;
+        cin.clear();
+        while (cin.get() != '\n') {
+            continue;
+        }
+    };
     if (num != 1) {
         return 1;
     }

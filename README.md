@@ -54,3 +54,5 @@ To:
         CREATE DATABASE server_db;
 
 ## Protocol: Google Protocol Buffers
+
+        sudo apt-get install libprotobuf-dev protobuf-compiler

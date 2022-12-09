@@ -20,7 +20,13 @@ int main(int argc, char *argv[]) {
     int peerPort;
     while (true) {
         cout << "Please enter a port number for sharing your files: " << endl;
-        cin >> peerPort;
+        while (!(cin >> peerPort)) {
+            cout << "Please enter an int:" << endl;
+            cin.clear();
+            while (cin.get() != '\n') {
+                continue;
+            }
+        };
         if (peerPort > 9999 || peerPort < 1000) {
             cout << endl;
             cout << "Please enter a valid port number." << endl;
