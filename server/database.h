@@ -34,8 +34,8 @@ class ServerData {
     int add_file(string file_name, int file_size, int file_ttl, string user_ip,
                  int port);
     S2CQuery *query_file(string file_name);
-    int delete_file(string file_name);
-    int delete_user(string user_id);
+    int delete_file(string file_name, string user_ip);
+    int delete_user(string user_ip);
 };
 
 // int add_user(connection *C, int user_ip);

@@ -41,13 +41,14 @@ class p2pserver {
 
     void executeThread(request *req);
 
-    void sendResponse(const serverResp &serverResp, int user_fd);
-    void handleRequest(const clientRequest &clientRequest, string user_ip,
-                       int user_fd);
+    void sendResponse(const serverResp &serverResp, int user_fd,
+                      string user_ip);
+    int handleRequest(const clientRequest &clientRequest, string user_ip,
+                      int user_fd);
     void handleShare(const C2SShare &c2sShare, string user_ip, int user_fd);
-    void handleQuery(const C2SQuery &c2sQuery, int user_fd);
-    void handleDelete(const C2SDelete &c2sDelete, int user_fd);
-    void handleQuit(const C2SQuit &c2sQuit, string user_ip, int user_fd);
+    void handleQuery(const C2SQuery &c2sQuery, int user_fd, string user_ip);
+    void handleDelete(const C2SDelete &c2sDelete, int user_fd, string user_ip);
+    int handleQuit(const C2SQuit &c2sQuit, string user_ip, int user_fd);
     void setResult(fileNameResponse *fileResp, int res, string file_name);
 };
 

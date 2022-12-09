@@ -4,11 +4,14 @@ ServerData::ServerData()
     : C(make_shared<connection>(
           "dbname = server_db user = postgres password = postgres")) {
     if (C->is_open()) {
-        cout << "Server successfully connect to the databaase." << endl;
+        cout << "Server successfully connect to the database server_db."
+             << endl;
         this->DropAllTables();
         this->createTables();
     } else {
-        throw "Server unable to connect to the database. Server exit...";
+        cout << "Server unable to connect to the database. Server exit..."
+             << endl;
+        exit(-1);
     }
 }
 
@@ -100,12 +103,16 @@ S2CQuery *ServerData::query_file(string file_name) {
     }
 }
 
-int ServerData::delete_file(string file_name) {
+int ServerData::delete_file(string file_name, string user_ip) {
     std::lock_guard<std::mutex> lck(mtx);
     work W(*C);
     try {
         result R = ServerData::is_file(W, file_name);
         if (R.size() == 0) {
+            return 0;
+        }
+        string ip = R[0][3].as<string>();
+        if (ip != user_ip) {
             return 0;
         }
         string delete_file =
