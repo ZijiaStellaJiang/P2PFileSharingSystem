@@ -60,7 +60,7 @@ void peerServer::run() {
         exit(EXIT_FAILURE);
     }
 
-    serv.tryListen();
+    // serv.tryListen();
 
     while (true) {
         // Accept one connection in the queue

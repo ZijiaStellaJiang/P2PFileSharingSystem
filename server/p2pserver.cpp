@@ -47,6 +47,16 @@ void p2pserver::sendResponse(const serverResp &serverResp, int user_fd) {
     serverr.resMesg(user_fd, serverResp);
 
     cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
+    cout << "Send Server Response" << endl;
 }
 
 void p2pserver::handleRequest(const clientRequest &clientRequest,
