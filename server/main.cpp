@@ -1,33 +1,19 @@
 #include <netdb.h>
+#include <sys/socket.h>
 #include <unistd.h>
-#include <cstring>
-#include <vector>
+
 #include <cstdio>
 #include <cstdlib>
-#include <iostream>
 #include <cstring>
-#include <sys/socket.h>
+#include <iostream>
+#include <vector>
+
+#include "p2pserver.h"
 #include "server.h"
-#include  "p2pserver.h"
 using namespace std;
 
-int main(int argc, char *argv[]){
-    //int port     = 3333;
-    //server server(port);
-    //server.tryListen();
-    //cout << "Waiting for connection on port " << port << endl;
-    //server.tryAccept();
-    //int fd=server.getClientFd();
-    //char buffer[512];
-    //server.tryRecvMessage(buffer,0,fd);
-    //cout << "Server received: " << buffer << endl;
-    //char message[] = "hi there! I'm server";
-    //server.trySendMessage(message, fd);
-    //server.close();
-    //return 0;
+int main(int argc, char *argv[]) {
     p2pserver pserver;
     pserver.run();
-    return 0;
-
+    return 1;
 }
-
