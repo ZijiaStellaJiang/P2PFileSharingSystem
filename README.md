@@ -56,3 +56,47 @@ To:
 ## Protocol: Google Protocol Buffers
 
         sudo apt-get install libprotobuf-dev protobuf-compiler
+
+## Run the Project 
+
+#### Server
+
+In ./server enter 
+
+        make
+
+After make success
+        
+        ./main
+
+You can also check the database while running the server by:
+
+        psql -U postgres
+
+enter the password "postgres", then
+
+        \c server_db
+
+then 
+
+        SELECT * FROM file;
+
+#### Client
+
+in ./client directory, run
+
+        make
+
+then run,
+
+        ./main <your server machine ip address>
+
+Then follow the stdout on terminal to work!
+
+#### Reminder
+
+Please do not run server and client on same machine.
+
+Port number should be 4 digits int.
+
+IP address should follow the format 127.0.0.1
